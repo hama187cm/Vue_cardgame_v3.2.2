@@ -1,8 +1,12 @@
 const deck = [];
+
+const allSuits = ['♠', '♣', '♦', '♥'];
+const maxNumber = 13;
+
 //['spade', 'club', 'diamond', 'heart'].forEach(suit => {
 // [100, 200, 300, 400].forEach(suit => {
-['♠', '♣', '♦', '♥'].forEach(suit => {
-    Array.from(Array(13), (_, i) => ++i).forEach(number => {
+allSuits.forEach(suit => {
+  Array.from(Array( maxNumber ), (_, i) => ++i).forEach(number => {
     
     // ["♠", "♣", "♦", "♥"]
     deck.push({ suit, number, hide: false, id: (suit+number)});

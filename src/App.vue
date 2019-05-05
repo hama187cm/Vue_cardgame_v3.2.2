@@ -2,16 +2,6 @@
 <div id="app">
   <v-container fluid grid-list-xs>
     <v-layout row wrap justify-start>
-
-      <v-flex xs6 pt-3>
-        <div class="message">{{ mainMessage }}</div>
-        <div class="message">{{ orientationData }}</div>
-      </v-flex>
-      <v-flex xs6>
-        <v-btn @click="getDeviceorientation">getDeviceorientation</v-btn>
-        <v-btn @click="setDeviceorientation">setDeviceorientation</v-btn>
-      </v-flex>
-
       <v-flex xs12 mb-2>
         <div class="game">
           <!-- <span>Arena er</span> -->
@@ -21,6 +11,15 @@
           </div> -->
           <player />
         </div>
+      </v-flex>
+
+      <v-flex xs6 pt-1>
+        <div class="message">{{ mainMessage }}</div>
+        <div class="message">{{ orientationData }}</div>
+      </v-flex>
+      <v-flex xs4>
+        <div class="grey lighten-3 my-2 py-1 material"  @click="onDeviceorientation">on 伏せCheck</div>
+        <div class="grey lighten-3 my-2 py-1 material"  @click="offDeviceorientation">off 伏せCheck</div>
       </v-flex>
 
     </v-layout>
@@ -55,44 +54,32 @@ export default {
       this.showButtons = false
       this.mainMessage = `Dealer : ${dealersResult} / Player : ${this.playersResult}`
     },
-    getDeviceorientation: function(evt) {
+    // deviceorientationあたりを後でcomponet化する
+    onDeviceorientation: function() {
       // モバイル端末の傾きを JavaScript で受け取る : https://gomiba.co.in/blog/archives/2463
-      window.addEventListener('deviceorientation', this.setDeviceorientation, false)
+      window.addEventListener('deviceorientation', this.setDeviceorientation, false);
+      // this.$on('deviceorientation', this.setDeviceorientation);
+      this.updateEventListenerTimer = setInterval(this.offDeviceorientation, 10*60*1000)
     },
     setDeviceorientation: function(evt) {
       console.log({
           beta: evt.beta,   // x 軸
           gamma: evt.gamma, // y 軸
-          alpha: evt.alpha, // z 軸
+          // alpha: evt.alpha, // z 軸
       })
       // this.mainMessage = 'x:' & event.gamma & ',y:' & event.gamma & ',z:' & event.beta
       let data_x = Math.floor( event.beta  *10)/10;
       let data_y = Math.floor( event.gamma *10)/10;
-      let data_z = Math.floor( event.alpha *10)/10;
-      this.orientationData = `  x:${data_x}, y:${data_y}, z:${data_z}`;
-
-      this.mainMessage = "1分以内にスマホを伏せてください";
-      
-      this.updateEventListenerTimer = setInterval(this.kickRemoveEventListener, 5*1000)
+      // let data_z = Math.floor( event.alpha *10)/10;
+      // this.orientationData = `  x:${data_x}, y:${data_y}, z:${data_z}`;
+      this.orientationData = `  x:${data_x}, y:${data_y}`;
+      this.mainMessage = "10分以内にスマホを伏せてください";
     },
-    kickRemoveEventListener: function(){
+    offDeviceorientation: function(){
       window.removeEventListener('deviceorientation', this.setDeviceorientation, false)
-      clearInterval(this.updateEventListenerTimers)
+      // this.$off('deviceorientation', this.setDeviceorientation);
+      clearInterval(this.updateEventListenerTimers);
     },
-  },
-  computed: {
-    resultMessage: function () {
-      if (this.showButtons) {
-        return ''
-      }
-      if (this.playersResult > this.dealersResult || this.dealersResult === 'Bust') {
-        return 'You Win'
-      }
-      if (this.playersResult < this.dealersResult || this.playersResult === 'Bust') {
-        return 'You Lose'
-      }
-      return 'Draw'
-    }
   },
 }
 </script>
