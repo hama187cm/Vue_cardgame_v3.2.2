@@ -28,18 +28,14 @@
 </template>
 
 <script>
-import Dealer from './components/Dealer'
 import Player from './components/Player'
 
 export default {
   name: 'app',
-  components: { Dealer, Player },
+  components: { Player },
   data () {
     return {
       mainMessage: 'Welcome to Game',
-      playersResult: 0,
-      dealersResult: 0,
-      showButtons: true,
       orientationData: '',
       updateEventListenerTimer : null
     }

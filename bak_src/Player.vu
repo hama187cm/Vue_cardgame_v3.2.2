@@ -1,0 +1,121 @@
+<template>
+<div class="player">
+  <v-container fluid grid-list-xs>
+    <v-layout row wrap justify-start>
+      <v-flex d-flex xs1 mb-2>
+        <v-btn @click="draw">Draw</v-btn>
+        <!-- <v-btn @click="hit">Hit</v-btn>
+        <v-btn @click="stand">Stand</v-btn> -->
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap justify-start>
+      <v-flex xs4 text-align-start>
+        <v-flex xs12 ma-0 pa-0 text-align-start>
+          <span>Public area</span>
+        </v-flex>
+        <v-flex xs12 ma-1 pa-0 align-self-center>
+          <div class="blue lighten-2 list">
+            <draggable class="draggbleArea" :list="arena" :options="{group:'cards'}" :move="beforeMove" @end="onEnd" :animation=300>
+              <div class="card" v-for="(card, index) in arena" :key="index">
+                  {{card.suit}} {{card.number}}
+              </div>
+            </draggable>
+          </div>
+          <div class="lable">(↑) Dragging Card Space</div>
+        </v-flex>
+      </v-flex>
+      <v-flex xs8 text-align-start>
+        <v-flex xs6 ma-0 pa-0 text-align-start>
+          <span>Private area</span>
+        </v-flex>
+        <v-layout row wrap justify-start>
+          <v-flex xs6 text-align-start>
+            <div class="teal lighten-4 list">
+              
+              <div class="teal lighten-3 list" v-if="newCard.length!=0">
+                <div class="yellow label material">New!</div>
+                <draggable :list="newCard" :options="{group:'cards'}" :move="beforeMove" @end="onEnd" :animation=300>
+                  <div class="card" v-for="(card, index) in newCard" :key="index">
+                      {{card.suit}} {{card.number}}
+                  </div>
+                </draggable>
+              </div>
+
+              <draggable class="draggbleArea" :list="hand" :options="{group:'cards'}" :move="beforeMove" @end="onEnd" :animation=300>
+                <div class="card" v-for="(card, index) in hand" :key="index">
+                    {{card.suit}} {{card.number}}
+                </div>
+              </draggable>
+            </div>
+            <div class="lable">(↑) Dragging Card Space</div>
+          </v-flex>
+          <v-flex xs6 text-align-start>
+            <div class="teal lighten-4 list">
+              <draggable class="draggbleArea" :list="hand2" :options="{group:'cards'}" :move="beforeMove" @end="onEnd" :animation=300>
+                <div class="card" v-for="(card, index) in hand2" :key="index">
+                    {{card.suit}} {{card.number}}
+                </div>
+              </draggable>
+            </div>
+            <div class="lable">(↑) Dragging Card Space</div>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+  </v-container>
+</div>
+</template>
+
+<script>
+import draggable from "vuedraggable";
+
+import pick from '../utils/deck'
+import calc from '../utils/calc'
+import Card from './Card'
+
+export default {
+  name: 'player',
+  components: { draggable, Card },
+  props: ['showButtons'],
+  data () {
+    return {
+      arena: [],
+      newCard:  [],
+      hand:  [],
+      hand2: [],
+      result: 0,
+    }
+  },
+  created: function () {
+      this.newCard.push(pick());
+      this.hand.push(pick());
+  },
+  methods: {
+    draw () {
+      this.newCard.push(pick());
+      // this.result = calc(this.hand);
+    },
+    beforeMove: function(evt) {
+      console.log(evt);
+      return evt.draggedContext.element.name !== 'Drag Area';
+    },
+    onEnd: function(evt) {
+      console.log(evt);
+    },
+    // hit () {
+    //   this.hand.push(pick());
+    //   this.result = calc(this.hand);
+    // },
+    // stand () {
+    //   this.$emit('stand', this.result)
+    // },
+  },
+  watch: {
+    result: function (newValue, oldValue) {
+      if (newValue === 'Bust') {
+        this.$emit('stand', newValue)
+      }
+    }
+  }
+}
+</script>
