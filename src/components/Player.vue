@@ -20,8 +20,8 @@
                   {{card.suit}} {{card.number}}
               </div>
             </draggable>
+            <div class="lable" v-if="arena.length==0">↑ Dragging Card Space</div>
           </div>
-          <div class="lable">(↑) Dragging Card Space</div>
         </v-flex>
       </v-flex>
       <v-flex xs8 text-align-start>
@@ -33,7 +33,7 @@
             <div class="teal lighten-4 list">
               
               <div class="teal lighten-3 list" v-if="newCard.length!=0">
-                <div class="yellow label material">New!</div>
+                <span class="yellow label px-5 material">New!</span>
                 <draggable group="cards" :list="newCard" :move="beforeMove" @end="onEnd" :animation=300 :data-column-id=1>
                   <div class="card" v-for="(card, index) in newCard" :key="index">
                       {{card.suit}} {{card.number}}
@@ -46,8 +46,8 @@
                     {{card.suit}} {{card.number}}
                 </div>
               </draggable>
+              <div class="lable" v-if="hand.length==0">↑ Dragging Card Space</div>
             </div>
-            <div class="lable">(↑) Dragging Card Space</div>
           </v-flex>
           <v-flex xs6 text-align-start>
             <div class="teal lighten-4 list">
@@ -56,8 +56,8 @@
                     {{card.suit}} {{card.number}}
                 </div>
               </draggable>
+              <div class="lable" v-if="hand2.length==0">↑ Dragging Card Space</div>
             </div>
-            <div class="lable">(↑) Dragging Card Space</div>
           </v-flex>
         </v-layout>
       </v-flex>

@@ -104,6 +104,7 @@ export default {
   padding: 4px;
   width: 50px;
   text-align: center;
+  font-size: large;
   border: 1px solid #222;
   border-radius: 8px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
