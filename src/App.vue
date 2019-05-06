@@ -1,34 +1,32 @@
 <template>
-<div id="app">
-  <v-container fluid grid-list-xs>
-    <v-layout row wrap justify-start>
-      <v-flex xs12 mb-2>
-        <div class="game">
-          <!-- <span>Arena er</span> -->
-          <!-- <dealer ref="dealer" @result="postexec" /> -->
-          <!-- <div class="message">
-            {{ mainMessage }}
-          </div> -->
-          <player />
-        </div>
-      </v-flex>
-
-      <v-flex xs6 pt-1>
-        <div class="message">{{ mainMessage }}</div>
-        <div class="message">{{ orientationData }}</div>
-      </v-flex>
-      <v-flex xs4>
-        <div class="grey lighten-3 my-2 py-1 material"  @click="onDeviceorientation">on 伏せCheck</div>
-        <div class="grey lighten-3 my-2 py-1 material"  @click="offDeviceorientation">off 伏せCheck</div>
-      </v-flex>
-
-    </v-layout>
-  </v-container>
-</div>
+<v-container fluid grid-list-xs id="app">
+  <v-layout row wrap justify-start>
+    <v-flex xs12 mb-1 pa-0>
+      <div class="message">{{ mainMessage }}</div>
+    </v-flex>
+    <v-flex xs12 mb-1 pa-0>
+      <!-- <player :newCard="this.newCard"/> -->
+      <player />
+    </v-flex>
+    <v-flex xs12 mb-1 pa-0>
+      <v-layout row wrap justify-start>
+          <v-flex xs3 mx-2>
+            <div class="grey lighten-3 my-2 py-1 material"  @click="onDeviceorientation">on 伏せCheck</div>
+            <div class="message">{{ orientationData }}</div>
+          </v-flex>
+          <v-flex xs3 mx-2>
+            <div class="grey lighten-3 my-2 py-1 material"  @click="offDeviceorientation">off 伏せCheck</div>
+          </v-flex>
+      </v-layout>
+    </v-flex>
+  </v-layout>
+</v-container>
 </template>
 
 <script>
-import Player from './components/Player'
+// import Player from './components/Player'
+import Player from './comp_sotto/Player'
+// import pick from './utils/deck' //drawをApp.vueで実行用
 
 export default {
   name: 'app',
@@ -37,19 +35,14 @@ export default {
     return {
       mainMessage: 'Welcome to Game',
       orientationData: '',
-      updateEventListenerTimer : null
+      updateEventListenerTimer : null,
+      // newCard:  [],  //drawをApp.vueで実行用
     }
   },
   methods: {
-    stand: function (playersResult) {
-      this.playersResult = playersResult;
-      this.$refs.dealer.$emit('postexec', playersResult === 'Bust')
-    },
-    postexec: function (dealersResult) {
-      this.dealersResult = dealersResult
-      this.showButtons = false
-      this.mainMessage = `Dealer : ${dealersResult} / Player : ${this.playersResult}`
-    },
+    // draw () {  //drawをApp.vueで実行用
+    //   this.newCard.push(pick());
+    // },
     // deviceorientationあたりを後でcomponet化する
     onDeviceorientation: function() {
       // モバイル端末の傾きを JavaScript で受け取る : https://gomiba.co.in/blog/archives/2463
@@ -99,19 +92,19 @@ export default {
   padding: 4px;
   border-radius: 8px;
 }
-.card {
+/* .card {
   margin: 8px;
   padding: 4px;
   width: 50px;
   text-align: center;
   font-size: large;
-  border: 1px solid #222;
+  border: 1px solid #666;
   border-radius: 8px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   cursor: grab;
-  /* float:  left;  */
-}
+  display: table-cell;
+} */
 .card_blank{
   margin-top: 40px;
 }
@@ -124,6 +117,8 @@ export default {
   text-align: left;
 }
 .draggbleArea{
-  min-height: 200px;
+  min-width: 40px;
+  min-height: 40px;
+  /* display: table; */
 }
 </style>
