@@ -8,7 +8,7 @@
       <!-- <player :newCard="this.newCard"/> -->
       <player />
     </v-flex>
-    <v-flex xs12 mb-1 pa-0>
+    <!-- <v-flex xs12 mb-1 pa-0>
       <v-layout row wrap justify-start>
           <v-flex xs3 mx-2>
             <div class="grey lighten-3 my-2 py-1 material"  @click="onDeviceorientation">on 伏せCheck</div>
@@ -18,7 +18,7 @@
             <div class="grey lighten-3 my-2 py-1 material"  @click="offDeviceorientation">off 伏せCheck</div>
           </v-flex>
       </v-layout>
-    </v-flex>
+    </v-flex> -->
   </v-layout>
 </v-container>
 </template>
@@ -34,8 +34,8 @@ export default {
   data () {
     return {
       mainMessage: 'Welcome to Game',
-      orientationData: '',
-      updateEventListenerTimer : null,
+      // orientationData: '',
+      // updateEventListenerTimer : null,
       // newCard:  [],  //drawをApp.vueで実行用
     }
   },
@@ -44,31 +44,31 @@ export default {
     //   this.newCard.push(pick());
     // },
     // deviceorientationあたりを後でcomponet化する
-    onDeviceorientation: function() {
-      // モバイル端末の傾きを JavaScript で受け取る : https://gomiba.co.in/blog/archives/2463
-      window.addEventListener('deviceorientation', this.setDeviceorientation, false);
-      // this.$on('deviceorientation', this.setDeviceorientation);
-      this.updateEventListenerTimer = setInterval(this.offDeviceorientation, 10*60*1000)
-    },
-    setDeviceorientation: function(evt) {
-      console.log({
-          beta: evt.beta,   // x 軸
-          gamma: evt.gamma, // y 軸
-          // alpha: evt.alpha, // z 軸
-      })
-      // this.mainMessage = 'x:' & event.gamma & ',y:' & event.gamma & ',z:' & event.beta
-      let data_x = Math.floor( event.beta  *10)/10;
-      let data_y = Math.floor( event.gamma *10)/10;
-      // let data_z = Math.floor( event.alpha *10)/10;
-      // this.orientationData = `  x:${data_x}, y:${data_y}, z:${data_z}`;
-      this.orientationData = `  x:${data_x}, y:${data_y}`;
-      this.mainMessage = "10分以内にスマホを伏せてください";
-    },
-    offDeviceorientation: function(){
-      window.removeEventListener('deviceorientation', this.setDeviceorientation, false)
-      // this.$off('deviceorientation', this.setDeviceorientation);
-      clearInterval(this.updateEventListenerTimers);
-    },
+    // onDeviceorientation: function() {
+    //   // モバイル端末の傾きを JavaScript で受け取る : https://gomiba.co.in/blog/archives/2463
+    //   window.addEventListener('deviceorientation', this.setDeviceorientation, false);
+    //   // this.$on('deviceorientation', this.setDeviceorientation);
+    //   this.updateEventListenerTimer = setInterval(this.offDeviceorientation, 10*60*1000)
+    // },
+    // setDeviceorientation: function(evt) {
+    //   console.log({
+    //       beta: evt.beta,   // x 軸
+    //       gamma: evt.gamma, // y 軸
+    //       // alpha: evt.alpha, // z 軸
+    //   })
+    //   // this.mainMessage = 'x:' & event.gamma & ',y:' & event.gamma & ',z:' & event.beta
+    //   let data_x = Math.floor( event.beta  *10)/10;
+    //   let data_y = Math.floor( event.gamma *10)/10;
+    //   // let data_z = Math.floor( event.alpha *10)/10;
+    //   // this.orientationData = `  x:${data_x}, y:${data_y}, z:${data_z}`;
+    //   this.orientationData = `  x:${data_x}, y:${data_y}`;
+    //   this.mainMessage = "10分以内にスマホを伏せてください";
+    // },
+    // offDeviceorientation: function(){
+    //   window.removeEventListener('deviceorientation', this.setDeviceorientation, false)
+    //   // this.$off('deviceorientation', this.setDeviceorientation);
+    //   clearInterval(this.updateEventListenerTimers);
+    // },
   },
 }
 </script>
