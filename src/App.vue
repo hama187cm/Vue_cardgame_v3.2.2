@@ -1,32 +1,34 @@
 <template>
-<v-container fluid grid-list-xs id="app">
-  <v-layout row wrap justify-start>
-    <v-flex xs12 mb-1 pa-0>
-      <div class="message">{{ mainMessage }}</div>
-    </v-flex>
-    <v-flex xs12 mb-1 pa-0>
-      <player />
-    </v-flex>
-  </v-layout>
-</v-container>
+
+<div id="app">
+  <v-container ma-0 pa-0>
+    <v-layout align-start justify-start>
+      <v-flex xs2 text-align-start>
+        <router-view />
+      </v-flex>
+      <v-flex xs2 text-align-start>
+        <navigation />
+      </v-flex>
+    </v-layout>
+  </v-container>
+  <game /> ,  
+</div>
 </template>
 
 <script>
-// import Player from './components/Player'
-import Player from './comp_sotto/Player'
+import Navigation from "./components/Navigation";
+import Game from './components/Game'
+// import Player from './comp_sotto/Player'
 // import pick from './utils/deck' //drawをApp.vueで実行用
 
 export default {
   name: 'app',
-  components: { Player },
-  data () {
-    return {
-      mainMessage: 'Welcome to Game',
-    }
-  },
-  methods: {
-    
-  },
+  components: { Navigation, Game },
+  // data () {
+  //   return {
+  //     mainMessage: 'Welcome to Game',
+  //   }
+  // },,
 }
 </script>
 
@@ -38,44 +40,27 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+ul {
+  margin: 1;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 1px 2px 1px;
+  padding: 0px;
+}
 
 .material{
   /* border: 1px solid #222; */
   border-radius: 8px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
 }
-.list{
-  margin: 1px;
-  padding: 4px;
-  border-radius: 8px;
-}
-/* .card {
-  margin: 8px;
-  padding: 4px;
-  width: 50px;
-  text-align: center;
-  font-size: large;
-  border: 1px solid #666;
-  border-radius: 8px;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
-  background-color: #fff;
-  cursor: grab;
-  display: table-cell;
-} */
-.card_blank{
-  margin-top: 40px;
-}
-.lable{
-  margin: 2px;
-  padding: 2px 8px 2px;
-  /* background-color: gray; */
-  /* border-radius: 8px; */
-  /* color: white; */
+.debug {
   text-align: left;
-}
-.draggbleArea{
-  min-width: 40px;
-  min-height: 40px;
-  /* display: table; */
+  font-size: smaill;
+  border: 1px;
+  border-color: black;
+  border-radius: 4px;
+  /* background-color: #ccc; */
 }
 </style>

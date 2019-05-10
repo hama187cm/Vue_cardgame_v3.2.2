@@ -1,5 +1,5 @@
 <template>
-<v-container fluid grid-list-xs class="player">
+<v-container mx-1 px-0 fluid grid-list-xs class="player">
   <v-layout row wrap justify-start>
     <v-flex xs5 text-align-start>
       <v-flex xs12 ma-0 pa-0>
@@ -24,7 +24,7 @@
         <span class="yellow label px-5 material">New!</span>
         <draggable group="cards" :list="newCard" :move="beforeMove" @end="onEnd" :animation=300 :data-column-id=1>
           <card v-for="(card, index) in newCard" :key="index"
-            :suit="card.suit" :number="card.number" :hide="true">
+            :suit="card.suit" :number="card.number" :hide="false">
           </card>
         </draggable>
       </div>

@@ -4,7 +4,8 @@
     back
   </div>
   <div class="cardStyle" v-else>
-    <span v-bind:style="{ color: 'red' }" v-if="this.suit==this.allStuits[2]">
+    <span v-bind:style="{ color: 'red' }"
+     v-if="this.suit==this.allStuits[2] | this.suit==this.allStuits[3]">
       {{this.suit}}<br />{{this.number}}
     </span>
     <span v-else>

@@ -1,4 +1,4 @@
-const deck = [];
+export const deck = [];
 
 // トランプ
 export const suits_black = ['♠', '♣'];
@@ -9,7 +9,14 @@ export const maxNumber = 13;
 
 allSuits.forEach(suit => {
   Array.from(Array( maxNumber ), (_, i) => ++i).forEach(number => {
-    deck.push({ suit, number, hide: false, whose: null, id: (suit+number)});
+    deck.push({
+        suit
+        , number
+        , hide: false
+        , id: (suit+number)
+        , own: null
+        , arena: null
+    });
   });
 });
 
