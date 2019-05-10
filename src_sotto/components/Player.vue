@@ -34,7 +34,6 @@
     </v-flex>
     <v-flex xs12 text-align-start>
       <div class="teal lighten-4 list">
-        
         <draggable class="draggbleArea" group="cards" :list="hand" :move="beforeMove" :animation=300>
           <card v-for="(card, index) in hand" :key="index"
             :suit="card.suit" :number="card.number" :hide="card.hide">

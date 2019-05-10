@@ -75,6 +75,9 @@ div.cardStyle {
   background-color: #fff;
   cursor: grab;
 }
+.card_blank{
+  margin-top: 40px;
+}
 div.cardStyle_backPlus {
   font-size: small!important;
   height: 50px;
