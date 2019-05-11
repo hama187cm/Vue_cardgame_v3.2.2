@@ -1,26 +1,12 @@
 <template>
-<v-container ma-0 pa-0 fluid grid-list-xs id="app">
+<v-container ma-1 pa-0 fluid grid-list-xs id="game">
   <v-layout row wrap justify-start>
-    <v-flex xs12 mb-1 pa-0>
-      <div class="message">{{ mainMessage }}</div>
-    </v-flex>
     <v-flex xs12 mb-1 pa-0>
       <player />
     </v-flex>
   </v-layout>
-
-  <v-layout row wrap justify-start>
-    <v-flex xs3 ma-1 pa-1 class="debug">
-      <input class="input" type="txt" id="nameInput" placeholder="Suit" v-model="suit" />
-    </v-flex>
-    <v-flex xs3 ma-1 pa-1 class="debug">
-            <input class="input" type="text" id="nameInput" placeholder="Number" v-model="number" />
-    </v-flex>
-    <v-flex xs3 ma-1 pa-1 class="debug">
-      <button class="button is-success" type="button" @click="sendMessage">送信</button>
-    </v-flex>
-  </v-layout>
-  <v-container fluid grid-list-xl>
+  <firebaseDebug v-bind:list= "list"/>
+  <!-- <v-container fluid grid-list-xl>
     <v-layout row wrap justify-start>
       <v-flex xs2 grey lighten-3 ma-0 pa-0 v-for="item in list" :key="item.id" class="debug">
         <div class="ma-1 px-1 debug">
@@ -30,9 +16,10 @@
             {{ item.hide }}, {{ item.own }}, {{ item.arena }}
         </span>
       </v-flex>
+      <div class="label">{{ localMessage }}</div>
     </v-layout>
+  </v-container> -->
   </v-container>
-</v-container>
 </template>
 
 <script>
@@ -41,30 +28,36 @@ import Player from './Player'
 // import pick from './utils/deck' //drawをApp.vueで実行用
 import  * as deck from '../utils/deck'
 
+import firebaseDebug from './firebaseDebug'
+
 export default {
-  name: 'app',
-  components: { Player },
+  name: 'game',
+  components: { Player, 
+              firebaseDebug
+  },
+  props: {
+    mainMessage: {type: String},
+  },
   data () {
     return {
-      mainMessage: 'Welcome to Game',
+      // mainMessage: 'Welcome to Game',
       // ⬇firebase
       list: [], // 最新状態はここにコピーされる
-      suit: "", // 名前
-      number: "" // 送信メッセージ
     }
   },
   created() {
-    this.listen();
+    // this.$parent.mainMessage = "test";
+    // this.listen();
     
     console.log(deck.deck);
     // this.db_init( deck.deck );
+    // this.list = deck.deck;
 
   },
   methods: {
     db_init( deckAllArr ) {
       // 空欄の場合は実行しない
       if (!deckAllArr) return;
-
       deckAllArr.forEach(function(card){
         firebase
           .database()
@@ -79,43 +72,43 @@ export default {
          });
       });
     },
-    // データベースの変更を購読、最新状態をlistにコピーする
-    listen() {
-      firebase
-        .database()
-        .ref("myBoard/")
-        .on("value", snapshot => {
-          // eslint-disable-line
-          if (snapshot) {
-            const rootList = snapshot.val();
-            let list = [];
-            Object.keys(rootList).forEach((val, key) => {
-              rootList[val].id = val;
-              list.push(rootList[val]);
-            });
-            this.list = list;
-          }
-        });
-    },
-    sendMessage() {
-      // 空欄の場合は実行しない
-      if (!this.suit || !this.number) return;
-      // 送信
-      firebase
-        .database()
-        .ref("myBoard1/")
-        .push({
-          id: this.suit+this.number,
-          suit: this.suit,
-          number: this.number,
-          own: null,
-          arena: null,
-          hide: null,
-        });
-      // 送信後inputを空にする
-      this.suit = "";
-      this.number = "";
-    },    
+    // //データベースの変更を購読、最新状態をlistにコピーする
+    // listen() {
+    //   firebase
+    //     .database()
+    //     .ref("myBoard/")
+    //     .on("value", snapshot => {
+    //       // eslint-disable-line
+    //       if (snapshot) {
+    //         const rootList = snapshot.val();
+    //         let list = [];
+    //         Object.keys(rootList).forEach((val, key) => {
+    //           rootList[val].id = val;
+    //           list.push(rootList[val]);
+    //         });
+    //         this.list = list;
+    //       }
+    //     });
+    // },
+    // sendMessage() {
+    //   // 空欄の場合は実行しない
+    //   if (!this.suit || !this.number) return;
+    //   // 送信
+    //   firebase
+    //     .database()
+    //     .ref("myBoard1/")
+    //     .push({
+    //       id: this.suit+this.number,
+    //       suit: this.suit,
+    //       number: this.number,
+    //       own: null,
+    //       arena: null,
+    //       hide: null,
+    //     });
+    //   // 送信後inputを空にする
+    //   this.suit = "";
+    //   this.number = "";
+    // },    
   },
 }
 </script>

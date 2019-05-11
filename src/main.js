@@ -17,41 +17,13 @@ Vue.use(Router);
 const routes = [
   { path: "/",
     component: {
-      template: 
-      `<ul>
-          <li>
-            <!-- <router-link to="/"> -->
-              Home
-            <!-- </router-link> -->
-          </li>
-          <li>
-            <router-link to="/table">
-              Table
-            </router-link>
-          </li>
-        </ul>
-      <div>
-      ユーザーIDは {{ $route.params.userid }}</div>`
+      template:'<span>[TOP]</span>'
     }
   },
   // { path: "/about", component: About },
   { path: "/table",
     component: {
-      template: 
-      `<ul>
-          <li>
-            <router-link to="/">
-              Home
-            </router-link>
-          </li>
-          <li>
-            <!-- <router-link to="/table"> -->
-              Table
-            <!-- </router-link> -->
-          </li>
-        </ul>
-      <div>
-      ユーザーIDは {{ $route.params.userid }}</div>`
+      template: '<span>[Table]</span>'
     }
   },
 ];

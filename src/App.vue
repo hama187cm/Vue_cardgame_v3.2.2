@@ -1,17 +1,23 @@
 <template>
 
 <div id="app">
-  <v-container ma-0 pa-0>
-    <v-layout align-start justify-start>
-      <v-flex xs2 text-align-start>
+  <v-container ma-1 pa-0>
+    <v-layout align-center justify-start>
         <router-view />
-      </v-flex>
-      <v-flex xs2 text-align-start>
-        <navigation />
-      </v-flex>
+        <ul>
+          <li>
+            <router-link to="/" exact-active-class!="active"><a>Home</a></router-link>
+          </li>
+          <li>
+            <router-link to="/table" exact-active-class!="active"><a>Table</a></router-link>
+          </li>
+          <li>
+            <div class="label">{{ mainMessage }}</div>
+          </li>
+        </ul>
     </v-layout>
   </v-container>
-  <game /> ,  
+  <game mainMessage/> ,  
 </div>
 </template>
 
@@ -24,11 +30,11 @@ import Game from './components/Game'
 export default {
   name: 'app',
   components: { Navigation, Game },
-  // data () {
-  //   return {
-  //     mainMessage: 'Welcome to Game',
-  //   }
-  // },,
+  data () {
+    return {
+      mainMessage: 'Welcome to Game',
+    }
+  },
 }
 </script>
 
@@ -41,12 +47,12 @@ export default {
   color: #2c3e50;
 }
 ul {
-  margin: 1;
+  margin: 2px;
   padding: 0;
 }
 li {
   display: inline-block;
-  margin: 1px 2px 1px;
+  margin: 1px 4px 1px;
   padding: 0px;
 }
 
