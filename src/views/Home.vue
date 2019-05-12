@@ -72,7 +72,7 @@ export default {
         firebase
           .database()
           .ref("myBoard/")
-          .push({
+          .set({
             id: card.suit+card.number,
             suit: card.suit,
             number: card.number,

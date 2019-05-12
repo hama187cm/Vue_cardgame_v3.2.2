@@ -1,7 +1,7 @@
 <template>
 <v-container fluid grid-list-xs class="player">
   <v-layout row wrap justify-start>
-    <v-flex xs5 text-align-start>
+    <v-flex xs4 text-align-start>
       <v-flex xs12 ma-0 pa-0>
         <span>Public area</span>
       </v-flex>
@@ -16,11 +16,11 @@
         </div>
       </v-flex>
     </v-flex>
-    <v-flex xs3 mt-2>
+    <v-flex xs2 mt-2>
       <v-btn @click="draw" round v-if="!nothing_in_deck_flg">Draw</v-btn>
       <v-btn @click="draw" round disabled v-else>Draw<br />(no card)</v-btn>
     </v-flex>
-    <v-flex xs4>
+    <v-flex xs6>
       <div class="teal lighten-3 list" v-if="newCard.length!=0">
         <span class="yellow label px-5 material">New!</span>
         <draggable group="cards" :list="newCard" :move="beforeMove" @end="onEnd" :animation=300 :data-column-id=1>
@@ -81,10 +81,10 @@ export default {
     }
   },
   created: function () {
-      this.arena.push(   deck.pick());
       // this.arena.push(   deck.pick());
-      this.newCard.push( deck.pick());
-      this.hand.push(    deck.pick());
+      // this.arena.push(   deck.pick());
+      // this.newCard.push( deck.pick());
+      // this.hand.push(    deck.pick());
       // console.log( this.arena );
   },
   methods: {

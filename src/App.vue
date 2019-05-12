@@ -29,13 +29,15 @@ export default {
     this.$root.$AppMessage = "" //グローバルmessage変数
     // console.dir( this.$root.$AppMessage );
     this.$root.$cardAll = deck.deck;
-    // console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
+    console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
     // console.log( "this.$root", JSON.stringify(this.$root ));
 
   },
+  // created() {
   created() {
     // deck.makeDeck();
-    // this.list = deck.makeDeck();
+    this.list = deck.deck;
+    // this.db_init0( this.list  );
   //   firebase.auth().onAuthStateChanged(user => {
   //     if (user) {
   //       // User is signed in.
@@ -47,6 +49,35 @@ export default {
   //   });
   },
   methods: {
+    db_init() {
+      this.database = firebase.database();
+      this.deckRef = this.database.ref('myBoard');
+
+      var _this = this;
+      this.deckRef.on('value', function(snapshot) {
+        _this.deckRef = snapshot.val(); // データに変化が起きたときに再取得する
+      });
+    },
+    db_init0( deckAllArr ) {
+      // 空欄の場合は実行しない
+      // if (!deckAllArr) return;
+
+      // this.list.push(deck());
+      deckAllArr.forEach(function(cardDmmy){
+        let card = deck.pick();
+        firebase
+          .database()
+          .ref("myBoard/")
+          .set({
+            id: card.suit+card.number,
+            suit: card.suit,
+            number: card.number,
+            own: null,
+            arena: null,
+            hide: null,
+         });
+      });
+    },
     // //匿名ユーザーでログイン
     // login() {
     //   firebase
