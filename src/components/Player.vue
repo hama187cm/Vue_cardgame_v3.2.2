@@ -17,11 +17,13 @@
       </v-flex>
     </v-flex>
     <v-flex xs3 mt-2>
-      <v-btn @click="draw">Draw</v-btn>
+      <v-btn @click="draw" v-if="!nothing_in_deck_flg">Draw</v-btn>
+      <v-btn @click="draw" v-else disabled>Draw</v-btn>
     </v-flex>
     <v-flex xs4>
       <div class="teal lighten-3 list" v-if="newCard.length!=0">
         <span class="yellow label px-5 material">New!</span>
+        <div class="label px-2" v-if="nothing_in_deck_flg">no card in deck</div>
         <draggable group="cards" :list="newCard" :move="beforeMove" @end="onEnd" :animation=300 :data-column-id=1>
           <card v-for="(card, index) in newCard" :key="index"
             :suit="card.suit" :number="card.number" :hide="false">
@@ -76,6 +78,7 @@ export default {
       newCard:  [],
       hand:  [],
       hand2: [],
+      nothing_in_deck_flg: false,
     }
   },
   created: function () {
@@ -83,27 +86,26 @@ export default {
       // this.arena.push(   deck.pick());
       this.newCard.push( deck.pick());
       this.hand.push(    deck.pick());
-      console.log( this.arena );
+      // console.log( this.arena );
   },
   methods: {
     draw () {
       let card = deck.pick();
       if( !card ){
         this.$parent.mainMessage = "no card in deck";
+        this.nothing_in_deck_flg = true
         return;
       }
       console.log( card );
       this.newCard.push( card );
     },
     beforeMove: function(evt) {
-      // console.log(evt);
       // console.log(evt.to.dataset.columnId);
       let newCardColumnflg = true;
       if(evt.to.dataset.columnId == 1){ newCardColumnflg = false}
       return newCardColumnflg;
     },
     onEnd: function(evt) {
-      // console.log(evt);
       // console.log(evt.to.dataset.columnId);
       // return evt.relatedContext.list.name !== 'newCard';
     },

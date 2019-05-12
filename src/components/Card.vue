@@ -20,11 +20,12 @@ import  * as deck from '../utils/deck'
 
 export default {
   name: 'card',
-  props: {
-    number: Number,
-    suit: String,
-    hide: Boolean,
-  },
+  props: ["number","suit","hide"],
+  // {
+  //   number: Number,
+  //   suit: String,
+  //   hide: Boolean,
+  // },
   data () {
     return {
       suitColor2: false,

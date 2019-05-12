@@ -1,34 +1,47 @@
 <template>
-<div id="Home">
+<v-flex xs12 mx-1 pa-0 id="Home">
+<!-- <v-container fluid grid-list-xs id="app"> -->
+  <v-layout row wrap justify-start class="navi_bar">
+    <navigation></navigation>
+                  <!-- v-on:panret_login="login" -->
+    <ul>
+        <!-- <li>
+          <v-btn primary @click="$emit('panret_login')">
+            匿名ユーザーでログイン
+          </v-btn>
+        </li> -->
+        <li>
+          <div>"{{ mainMessage }}"</div>
+        </li>
+      </ul>
+  </v-layout>
+
   <player :mainMessage="mainMessage" />
   <firebaseDebug v-bind:list= "list"/>
-</div>
+<!-- </v-container> -->
+</v-flex>
 </template>
-
-<script>
-export default {
-  name: "Home",
-}
-</script>
 
 <script>
 import Player from '../components/Player'
 import  * as deck from '../utils/deck'
 
+import Navigation from "./Navigation"
 import firebaseDebug from '../components/firebaseDebug'
 
 export default {
   name: 'Home',
-  components: { Player, 
+  components:{ Player, 
+              Navigation, 
               firebaseDebug,
   },
-  props: {
-    mainMessage: {type: String},
-    // list: {type: Array}, // 最新状態はここにコピーされる
-  },
+  // props: {
+  //   AppMessage: {type: String},
+  //   // list: {type: Array}, // 最新状態はここにコピーされる
+  // },
   data () {
     return {
-      mainMessageAtHome: this.mainMessage,
+      mainMessage: 'Welcome to Game',
       // ⬇firebase
       list: [], // 最新状態はここにコピーされる
     }
@@ -36,11 +49,8 @@ export default {
   created() {
     // this.$parent.mainMessage = "test";
     
-    // console.log(deck.deck);
     // this.db_init( deck.deck );
-    this.db_init0( deck.deck );
-    // this.list = deck.deck;
-
+    // this.db_init0( deck.deck );
   },
   methods: {
     db_init() {
@@ -54,12 +64,11 @@ export default {
     },
     db_init0( deckAllArr ) {
       // 空欄の場合は実行しない
-      if (!deckAllArr) return;
+      // if (!deckAllArr) return;
 
       // this.list.push(deck());
       deckAllArr.forEach(function(cardDmmy){
         let card = deck.pick();
-        // console.dir( card );
         firebase
           .database()
           .ref("myBoard/")

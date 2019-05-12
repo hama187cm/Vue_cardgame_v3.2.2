@@ -1,12 +1,25 @@
 <template>
-<v-container ma-1 pa-0 fluid grid-list-xs>
-<v-layout row wrap justify-start>
-    <v-flex xs12 mb-1 pa-0>
-      <player />
-    </v-flex>
+<v-flex xs12 mx-1 pa-0 id="$route.name">
+<!-- <v-container fluid grid-list-xs id="app"> -->
+  <v-layout row wrap justify-start class="navi_bar">
+    <navigation></navigation>
+                  <!-- v-on:panret_login="login" -->
+    <ul>
+        <!-- <li>
+          <v-btn primary @click="$emit('panret_login')">
+            匿名ユーザーでログイン
+          </v-btn>
+        </li> -->
+        <li>
+          <div>"{{ mainMessage }}"</div>
+        </li>
+      </ul>
   </v-layout>
+
+  <player :mainMessage="mainMessage" />
   <firebaseDebug v-bind:list= "list"/>
-  </v-container>
+<!-- </v-container> -->
+</v-flex>
 </template>
 
 <script>
@@ -19,19 +32,21 @@ export default {
 import Player from '../components/Player'
 import  * as deck from '../utils/deck'
 
+import Navigation from "./Navigation"
 import firebaseDebug from '../components/firebaseDebug'
 
 export default {
   name: 'Table',
   components: { Player, 
+              Navigation, 
               firebaseDebug
   },
-  props: {
-    mainMessage: {type: String},
-  },
+  // props: {
+  //   mainMessage: {type: String},
+  // },
   data () {
     return {
-      // mainMessage: 'Welcome to Game',
+      mainMessage: 'At Table',
       // ⬇firebase
       list: [], // 最新状態はここにコピーされる
     }

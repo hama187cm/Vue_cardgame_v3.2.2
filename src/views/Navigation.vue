@@ -13,7 +13,7 @@
         ],
       }
     }, -->
-  <li v-for="tab in this.$router.options.routes" :key='tab.name' class="blue-grey lighten-4 pa-1">
+  <li v-for="tab in this.$router.options.routes" :key='tab.name' class="blue-grey lighten-4 mr-2">
     <router-link :to="{ path : tab.path}" v-if="tab.name!=$route.name">
       <a>{{tab.name}}</a>
     </router-link>
@@ -57,7 +57,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 ul {
   margin: 0;
   padding: 0;
@@ -65,6 +65,10 @@ ul {
 }
 li {
   display: inline-block;
-  padding: 0px 1px 0px;
 }
+.navi_bar{
+  text-align: left;
+  border-bottom: solid 1px #000000;
+}
+
 </style>

@@ -1,46 +1,38 @@
 <template>
-<v-flex xs12 mx-1 pa-0 id="app">
-<!-- <v-container fluid grid-list-xs id="app"> -->
-  <v-layout row wrap justify-start class="navi_bar">
-    <navigation  :mainMessage="mainMessage"
-      ></navigation>
-                  <!-- v-on:panret_login="login" -->
-    <ul>
-        <!-- <li>
-          <v-btn primary @click="$emit('panret_login')">
-            匿名ユーザーでログイン
-          </v-btn>
-        </li> -->
-        <li>
-          <div>"{{ mainMessage }}"</div>
-        </li>
-      </ul>
-  </v-layout>
-
-  <router-view :mainMessage="mainMessage"
+<div id="app">
+  <div class="lable" v-if="AppMessage">"{{ AppMessage }}"</div>
+  <!-- <router-view :AppMessage="AppMessage" -->
+  <router-view
   ></router-view>
-<!-- </v-container> -->
-</v-flex>
+</div>
 </template>
 
 <script>
-import Navigation from "./views/Navigation"
+// import Navigation from "./views/Navigation"
 // import Game from './components/Game'
 // import Player from './comp_sotto/Player'
-// import pick from './utils/deck' //drawをApp.vueで実行用
+import  * as deck from './utils/deck' //drawをApp.vueで実行用
 
+// Vue.prototype.$appName = 'My App'
 export default {
   name: 'app',
-  components: { Navigation, 
-              //  Game, 
-  },
+  // components: { Navigation, 
+  //             //  Game, 
+  // },
   data () {
     return {
-      mainMessage: 'Welcome to Game',
-      // list: [], // 最新状態はここにコピーされる
+      AppMessage: "",
+      list: [], // 最新状態はここにコピーされる
     }
   },
-  // created() {
+  created() {
+    this.$root.$AppMessage = "" //グローバルmessage変数
+    console.dir( this.$root.$AppMessage );
+    this.$root.$cardAll = deck.deck;
+    console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
+    // console.log( "this.$root", JSON.stringify(this.$root ));
+    // deck.makeDeck();
+    // this.list = deck.makeDeck();
   //   firebase.auth().onAuthStateChanged(user => {
   //     if (user) {
   //       // User is signed in.
@@ -50,7 +42,7 @@ export default {
   //       console.log("No user is signed in.");
   //     }
   //   });
-  // },
+  },
   methods: {
     // //匿名ユーザーでログイン
     // login() {
@@ -80,19 +72,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-ul {
-  margin: 2px;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 1px 4px 1px;
-  padding: 0px;
-}
-.navi_bar{
-  text-align: left;
-  border-bottom: solid 1px #000000;
 }
 
 .material{
