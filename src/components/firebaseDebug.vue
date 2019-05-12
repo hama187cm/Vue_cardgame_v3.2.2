@@ -1,5 +1,6 @@
 <template>
-<v-container ma-0 pa-0 fluid grid-list-xs id="firebaseDebug">
+<v-container fluid grid-list-xs grey lighten-3 id="firebaseDebug">
+  <hr />
   <v-layout row wrap justify-start>
     <v-flex xs3 ma-1 pa-1 class="debug">
       <input class="input" type="txt" id="nameInput" placeholder="Suit" v-model="suit" />
@@ -9,16 +10,16 @@
     </v-flex>
     <v-flex xs3 ma-1 pa-1 class="debug">
       <button class="button is-success" type="button" @click="sendMessage">送信</button>
-      <span class="label">{{ localMessage }}</span>
+      <span class="debug">{{ localMessage }}</span>
     </v-flex>
   </v-layout>
   <v-container fluid grid-list-xl>
     <v-layout row wrap justify-start>
-      <v-flex xs2 grey lighten-3 ma-0 pa-0 v-for="item in list" :key="item.id" class="debug">
-        <div class="ma-1 px-1 debug">
+      <v-flex xs2 grey lighten-5 ma-1 pa-1 v-for="item in list" :key="item.id" class="debug">
+        <div class="debug">
             {{ item.suit }}, {{ item.number }}
         </div>
-        <span class="mx-1 pa-1 debug">
+        <span class="debug">
             {{ item.hide }}, {{ item.own }}, {{ item.arena }}
         </span>
       </v-flex>
@@ -42,14 +43,15 @@ export default {
       // list: [], // 最新状態はここにコピーされる
       suit: "", // 名前
       number: "", // 送信メッセージ
-      localMessage: ""
+      localMessage: "",
+      min: 59,
+      sec: 59,
+      timerOn: false,
+      timerObj: null,
     }
   },
   created() {
-    // this.$parent.mainMessage = "test";
-    this.listen();
-    // console.log(deck.deck);
-    // this.db_init( deck.deck );
+    // this.listen();
   },
   methods: {
     // db_init( deckAllArr ) {
@@ -84,7 +86,8 @@ export default {
               list.push(rootList[val]);
             });
             // this.list = list;
-            this.$parent.list = list;
+            // this.$parent.list = list;
+            this.listen();
           }
         });
     },
@@ -106,14 +109,32 @@ export default {
       // 送信後inputを空にする
       this.suit = "";
       this.number = "";
-      this.localMessage = "->done"
-    },    
+      this.sendLocalMessage( "->done" );
+    },
+    sendLocalMessage( msg ){
+      this.localMessage = msg;
+      this.timerObj = setInterval(function() { 
+        this.localMessage = null; }, 1000);
+      //this.destroyed();
+    },
+    timerLocalMessage() {
+      let self = this;
+      this.timerObj = setInterval(function() {self.count()}, 3000)
+      // this.timerOn = true
+    },
+    // completeLocalMessage() {
+    //   clearInterval(this.timerObj)
+    // }
+  },
+  destroyed(){
+      clearInterval(this.timerObj);
   },
 }
 </script>
 
 <style scoped>
 .debug {
+  /* margin: 1px; */
   text-align: left;
   font-size: smaill;
   border: 1px;

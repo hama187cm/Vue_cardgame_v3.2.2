@@ -1,5 +1,5 @@
 <template>
-<v-container mx-1 px-0 fluid grid-list-xs class="player">
+<v-container fluid grid-list-xs class="player">
   <v-layout row wrap justify-start>
     <v-flex xs5 text-align-start>
       <v-flex xs12 ma-0 pa-0>
@@ -60,14 +60,18 @@
 <script>
 import draggable from "vuedraggable";
 
-import pick from '../utils/deck'
+import  * as deck from '../utils/deck'
 import Card from './Card'
 
 export default {
   name: 'player',
   components: { draggable, Card },
+  props: {
+    mainMessageAtHome: {type: String},
+  },
   data () {
     return {
+      mainMessageAtPlayer: this.mainMessageAtHome,
       arena: [],
       newCard:  [],
       hand:  [],
@@ -75,14 +79,21 @@ export default {
     }
   },
   created: function () {
-      this.arena.push(pick());
-      this.arena.push(pick());
-      this.newCard.push(pick());
-      this.hand.push(pick());
+      this.arena.push(   deck.pick());
+      // this.arena.push(   deck.pick());
+      this.newCard.push( deck.pick());
+      this.hand.push(    deck.pick());
+      console.log( this.arena );
   },
   methods: {
     draw () {
-      this.newCard.push(pick());
+      let card = deck.pick();
+      if( !card ){
+        this.$parent.mainMessage = "no card in deck";
+        return;
+      }
+      console.log( card );
+      this.newCard.push( card );
     },
     beforeMove: function(evt) {
       // console.log(evt);
@@ -99,3 +110,50 @@ export default {
   },
 }
 </script>
+
+
+<style scoped>
+.list{
+  margin: 1px;
+  padding: 4px;
+  border-radius: 8px;
+}
+/* .card {
+  margin: 8px;
+  padding: 4px;
+  width: 50px;
+  text-align: center;
+  font-size: large;
+  border: 1px solid #666;
+  border-radius: 8px;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  cursor: grab;
+  display: table-cell;
+} */
+.card_blank{
+  margin-top: 40px;
+}
+.lable{
+  margin: 2px;
+  padding: 2px 8px 2px;
+  /* background-color: gray; */
+  /* border-radius: 8px; */
+  /* color: white; */
+  text-align: left;
+}
+.draggbleArea{
+  min-width: 40px;
+  min-height: 40px;
+  /* display: table; */
+}
+
+.debug {
+  text-align: left;
+  font-size: smaill;
+  border: 1px;
+  border-color: black;
+  border-radius: 4px;
+  /* background-color: #ccc; */
+}
+</style>

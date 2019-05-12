@@ -4,33 +4,24 @@ import Vue from "vue";
 import App from "./App";
 // import App from "../src_sotto/App";
 
-import Router from "vue-router";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.css";
+
+import Router from "vue-router";
+import Home from "./views/Home";
+// import Home from "./views/Home";
+import Table from "./views/Table";
+
 Vue.use(Vuetify);
 
-// import Home from "./views/Home";
-// import About from "./views/About";
-// import Table from "./views/Table";
-
 Vue.use(Router);
-const routes = [
-  { path: "/",
-    component: {
-      template:'<span>[TOP]</span>'
-    }
-  },
-  // { path: "/about", component: About },
-  { path: "/table",
-    component: {
-      template: '<span>[Table]</span>'
-    }
-  },
-];
 const router = new Router({
-  routes
+  routes: [
+    { path: "/",      name:'Home',  component: Home },
+    { path: "/table", name:'Table', component: Table },
+  ]
 });
-router.push({ path: 'table' });
+// router.push({ path: 'table' });
 
 Vue.config.productionTip = false;
 

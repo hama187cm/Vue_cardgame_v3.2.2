@@ -1,6 +1,6 @@
 <template>
 <v-container ma-1 pa-0 fluid grid-list-xs id="game">
-  <v-layout row wrap justify-start>
+<v-layout row wrap justify-start>
     <v-flex xs12 mb-1 pa-0>
       <player />
     </v-flex>

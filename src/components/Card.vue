@@ -48,7 +48,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 div.cardStyle {
   margin: 4px;
   padding: 4px;
@@ -67,6 +67,8 @@ div.cardStyle_backPlus {
 }
 div.cardRow{
   display: table-cell;
+  /* display: inline-block; */
+  text-align: center;
   /* display: table; */ /* ←を親divに指定無しでも動作したので使っていない */
 }
 </style>
