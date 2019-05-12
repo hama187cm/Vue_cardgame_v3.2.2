@@ -29,7 +29,7 @@ export default {
     this.$root.$AppMessage = "" //グローバルmessage変数
     // console.dir( this.$root.$AppMessage );
     this.$root.$cardAll = deck.deck;
-    console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
+    // console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
     // console.log( "this.$root", JSON.stringify(this.$root ));
 
   },

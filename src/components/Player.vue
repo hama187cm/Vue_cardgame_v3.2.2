@@ -81,10 +81,10 @@ export default {
     }
   },
   created: function () {
-      // this.arena.push(   deck.pick());
-      // this.arena.push(   deck.pick());
-      // this.newCard.push( deck.pick());
-      // this.hand.push(    deck.pick());
+      this.arena.push(   deck.pick());
+      this.arena.push(   deck.pick());
+      this.newCard.push( deck.pick());
+      this.hand.push(    deck.pick());
       // console.log( this.arena );
   },
   methods: {

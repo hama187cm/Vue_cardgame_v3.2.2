@@ -6,30 +6,6 @@ export const suits_red = ['♦', '♥'];
 export const allSuits = suits_def.concat( suits_red );
 export const defMaxNum = 2; //13;
 
-// suits_def.forEach(suit => {
-//   Array.from(Array( defMaxNum ), (_, i) => ++i).forEach(number => {
-//     deck.push({ suit,
-//                 number,
-//                 hide: false,
-//                 color: null, //null= black
-//                 id: (suit+number),
-//                 own: null,
-//                 arena: null,
-//     });
-//   });
-// });
-// suits_red.forEach(suit => {
-//   Array.from(Array( defMaxNum ), (_, i) => ++i).forEach(number => {
-//     deck.push({ suit,
-//                 number,
-//                 hide: false,
-//                 color: "red", //null= black
-//                 id: (suit+number),
-//                 own: null,
-//                 arena: null,
-//     });
-//   });
-// });
 export const cardObj=( suit,
                       number =1,
                       color =null, //null= black
