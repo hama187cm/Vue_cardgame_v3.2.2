@@ -4,8 +4,8 @@
     back
   </div>
   <div class="cardStyle" v-else>
-    <span v-bind:style="{ color: 'red' }"
-     v-if="this.suit==this.allStuits[2] | this.suit==this.allStuits[3]">
+    <span v-bind:style="{ color: this.color }"
+     v-if="this.color">
       {{this.suit}}<br />{{this.number}}
     </span>
     <span v-else>
@@ -20,26 +20,26 @@ import  * as deck from '../utils/deck'
 
 export default {
   name: 'card',
-  props: ["number","suit","hide"],
+  props: ["number","suit","color","hide"],
   // {
   //   number: Number,
   //   suit: String,
   //   hide: Boolean,
   // },
-  data () {
-    return {
-      suitColor2: false,
-      allStuits: deck.allSuits,
-    }
-  },
-  created: function () {
-    for( let val of deck.suits_red){
-      if(this.suit==val){
-        this.suitColor2 = true;
-      }
-      // console.log(this.suit +"/"+val);
-    }
-  },
+  // data () {
+  //   return {
+  //     suitColor2: false,
+  //     allStuits: deck.allSuits,
+  //   }
+  // },
+  // created: function () {
+  //   for( let val of deck.suits_red){
+  //     if(this.suit==val){
+  //       this.suitColor2 = true;
+  //     }
+  //     // console.log(this.suit +"/"+val);
+  //   }
+  // },
   // computed: {
   //   getcardData: function () {
   //     const cardData = this.hide ? 'back' : `${this.suit}_${this.number.toString().padStart(2, "0")}`

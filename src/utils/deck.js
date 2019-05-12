@@ -1,11 +1,10 @@
 export let deck = [];
 
 // トランプ
-export const suits_black = ['♠', '♣'];
+export const suits_def = ['♠', '♣']; //def=suits_black
 export const suits_red   = ['♦', '♥'];
-export const suitColor2 = "red";
-export const allSuits = suits_black.concat( suits_red );
-export const maxNumber = 1; //13;
+export const allSuits = suits_def.concat( suits_red );
+export const defMaxNum = 1; //13;
 
 // export function makeDeck(){
 //   allSuits.forEach(suit => {  〜〜〜
@@ -13,32 +12,24 @@ export const maxNumber = 1; //13;
 //   return this.deck;
 // };
 
-allSuits.forEach(suit => {
-  Array.from(Array( maxNumber ), (_, i) => ++i).forEach(number => {
-    deck.push({
-        suit
-        , number
-        , hide: false
-        , id: (suit+number)
-        , own: null
-        , arena: null
-    });
-  });
-});
-
-export const additional_card = ( var_suit, var_number) => {
-  return {  id: var_suit+var_number,
-            suit: var_suit,
-            number: var_number,
-            hide: false,
-            own: null,
-            arena: null,
-  };
+export const cardObj=( suit,
+                      number =1,
+                      color =null, //null= black
+                      hide  =false,
+                      own   =null,
+                      arena =null,
+) => { return { id: suit+number,
+                suit: suit, number: number, color: color, hide: hide,own: own, arena: arena,
+              };
 };
 
-[...Array(2)].map(() => deck.push( additional_card( "J", "-") ) );
-deck.push( additional_card( "j", "-") );
-
+suits_def.forEach(suit => {
+  [...Array( defMaxNum )].map((_, i) => deck.push(cardObj( suit, i+1)) );
+});
+suits_red.forEach(suit => {
+  [...Array( defMaxNum )].map((_, i) => deck.push(cardObj( suit, i+1, "red")) );
+});
+[...Array( 3          )].map((_, i) => deck.push(cardObj( "J", "-")) );
 
 export function pick(){
   if( this.deck.length == 0 ) return;

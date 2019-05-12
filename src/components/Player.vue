@@ -9,7 +9,7 @@
         <div class="blue lighten-2 list">
           <draggable class="checkArena draggbleArea" group="cards" :list="arena" :move="beforeMove" @end="onEnd" :animation=300>
             <card v-for="(card, index) in arena" :key="index"
-              :suit="card.suit" :number="card.number" :hide="card.hide">
+              :suit="card.suit" :number="card.number" :hide="card.hide" :color="card.color">
             </card>
           </draggable>
           <div class="lable" v-if="arena.length==0">↑ Dragging Card Space</div>
@@ -17,16 +17,15 @@
       </v-flex>
     </v-flex>
     <v-flex xs3 mt-2>
-      <v-btn @click="draw" v-if="!nothing_in_deck_flg">Draw</v-btn>
-      <v-btn @click="draw" v-else disabled>Draw</v-btn>
+      <v-btn @click="draw" round v-if="!nothing_in_deck_flg">Draw</v-btn>
+      <v-btn @click="draw" round disabled v-else>Draw<br />(no card)</v-btn>
     </v-flex>
     <v-flex xs4>
       <div class="teal lighten-3 list" v-if="newCard.length!=0">
         <span class="yellow label px-5 material">New!</span>
-        <div class="label px-2" v-if="nothing_in_deck_flg">no card in deck</div>
         <draggable group="cards" :list="newCard" :move="beforeMove" @end="onEnd" :animation=300 :data-column-id=1>
           <card v-for="(card, index) in newCard" :key="index"
-            :suit="card.suit" :number="card.number" :hide="false">
+            :suit="card.suit" :number="card.number" :hide="false" :color="card.color">
           </card>
         </draggable>
       </div>
@@ -39,7 +38,7 @@
         
         <draggable class="draggbleArea" group="cards" :list="hand" :move="beforeMove" @end="onEnd" :animation=300>
           <card v-for="(card, index) in hand" :key="index"
-            :suit="card.suit" :number="card.number" :hide="card.hide">
+            :suit="card.suit" :number="card.number" :hide="card.hide" :color="card.color">
           </card>
         </draggable>
         <div class="lable" v-if="hand.length==0">↑ Dragging Card Space</div>
@@ -49,7 +48,7 @@
       <div class="teal lighten-4 list">
         <draggable class="draggbleArea" group="cards" :list="hand2" :move="beforeMove" @end="onEnd" :animation=300>
           <card v-for="(card, index) in hand2" :key="index"
-            :suit="card.suit" :number="card.number" :hide="card.hide">
+            :suit="card.suit" :number="card.number" :hide="card.hide" :color="card.color">
           </card>
         </draggable>
         <div class="lable" v-if="hand2.length==0">↑ Dragging Card Space</div>
@@ -92,7 +91,7 @@ export default {
     draw () {
       let card = deck.pick();
       if( !card ){
-        this.$parent.mainMessage = "no card in deck";
+        // this.$parent.mainMessage = "no card in deck";
         this.nothing_in_deck_flg = true
         return;
       }

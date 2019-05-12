@@ -21,16 +21,19 @@ export default {
   // },
   data () {
     return {
-      AppMessage: "",
+      AppMessage: this.$root.$AppMessage,
       list: [], // 最新状態はここにコピーされる
     }
   },
-  created() {
+  beforeCreate(){
     this.$root.$AppMessage = "" //グローバルmessage変数
-    console.dir( this.$root.$AppMessage );
+    // console.dir( this.$root.$AppMessage );
     this.$root.$cardAll = deck.deck;
-    console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
+    // console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
     // console.log( "this.$root", JSON.stringify(this.$root ));
+
+  },
+  created() {
     // deck.makeDeck();
     // this.list = deck.makeDeck();
   //   firebase.auth().onAuthStateChanged(user => {
