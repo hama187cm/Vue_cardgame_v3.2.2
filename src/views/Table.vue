@@ -11,22 +11,19 @@
           </v-btn>
         </li> -->
         <li>
-          <div>"{{ mainMessage }}"</div>
+          <div>[Game ID:{{ $route.params.id }}]</div>
+        </li>
+        <li>
+          <div v-if="mainMessage">"{{ mainMessage }}"</div>
         </li>
       </ul>
   </v-layout>
 
-  <player :mainMessage="mainMessage" />
+  <player :mainMessageAtView="mainMessage" />
   <firebaseDebug v-bind:list= "list"/>
 <!-- </v-container> -->
 </v-flex>
 </template>
-
-<script>
-export default {
-  name: "Main",
-}
-</script>
 
 <script>
 import Player from '../components/Player'
@@ -36,49 +33,48 @@ import Navigation from "./Navigation"
 import firebaseDebug from '../components/firebaseDebug'
 
 export default {
-  name: 'Table',
-  components: { Player, 
+  name: 'Home',
+  components:{ Player, 
               Navigation, 
-              firebaseDebug
+              firebaseDebug,
   },
   // props: {
-  //   mainMessage: {type: String},
+  //   AppMessage: {type: String},
+  //   // list: {type: Array}, // 最新状態はここにコピーされる
   // },
   data () {
     return {
-      mainMessage: 'At Table',
+      mainMessage: 'Welcome to Game',
       // ⬇firebase
       list: [], // 最新状態はここにコピーされる
     }
   },
   created() {
     // this.$parent.mainMessage = "test";
-
-    // this.listen();
     
-    // console.log(deck.deck);
     // this.db_init( deck.deck );
-    // this.list = deck.deck;
-
   },
   methods: {
-    //データベースの変更を購読、最新状態をlistにコピーする
-    listen() {
-      firebase
-        .database()
-        .ref("myBoard/")
-        .on("value", snapshot => {
-          // eslint-disable-line
-          if (snapshot) {
-            const rootList = snapshot.val();
-            let list = [];
-            Object.keys(rootList).forEach((val, key) => {
-              rootList[val].id = val;
-              list.push(rootList[val]);
-            });
-            this.list = list;
-          }
-        });
+    db_init( deckAllArr ) {
+      // 空欄の場合は実行しない
+      // if (!deckAllArr) return;
+
+      // this.list.push(deck());
+      deckAllArr.forEach(function(cardDmmy){
+        let card = deck.pick();
+        console.log("at Home",JSON.stringify(this.$route.params));
+        firebase
+          .database()
+          .ref("myBoard"+this.$route.params.id+"/")
+          .child(card.id)
+          .set({
+            suit: card.suit,
+            number: card.number,
+            own: card.own,
+            arena: card.arena,
+            hide: card.hide,
+         });
+      });
     },
   },
 }

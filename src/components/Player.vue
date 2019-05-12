@@ -68,24 +68,40 @@ export default {
   name: 'player',
   components: { draggable, Card },
   props: {
-    mainMessageAtHome: {type: String},
+    mainMessageAtView: {type: String},
   },
   data () {
     return {
-      mainMessageAtPlayer: this.mainMessageAtHome,
+      list: [],
       arena: [],
       newCard:  [],
       hand:  [],
       hand2: [],
+      // myCards: this.arena.concat(this.newCard, this.hand, this.hand2 ),
       nothing_in_deck_flg: false,
     }
   },
-  created: function () {
+  // beforeUpdate(){
+  //   console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
+  //   if(this.$root.$cardAll==null){
+  //     this.list = this.$root.$cardAll  = deck.deck;
+  //   }
+  // },
+  created() {
+    console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
+    console.dir(this.$root.$cardAll);
+    // console.log("deck :", JSON.stringify( deck ))
+    let myCards = this.arena.concat(this.newCard, this.hand, this.hand2 );
+    console.dir(myCards);
+    let pickCard = deck.pick("A");
+    pickCard.own = "A";
+    if(myCards.length==0 && this.$root.$cardAll==4 ){
       this.arena.push(   deck.pick());
       this.arena.push(   deck.pick());
       this.newCard.push( deck.pick());
       this.hand.push(    deck.pick());
       // console.log( this.arena );
+    }
   },
   methods: {
     draw () {

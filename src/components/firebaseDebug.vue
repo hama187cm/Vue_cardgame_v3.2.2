@@ -98,8 +98,8 @@ export default {
       firebase
         .database()
         .ref("myBoard/")
-        .push({
-          id: this.suit+this.number,
+        .child(this.suit+this.number)
+        .set({
           suit: this.suit,
           number: this.number,
           own: null,

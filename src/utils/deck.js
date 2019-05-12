@@ -4,7 +4,7 @@ export let deck = [];
 export const suits_def = ['♠', '♣']; //def=suits_black
 export const suits_red = ['♦', '♥'];
 export const allSuits = suits_def.concat( suits_red );
-export const defMaxNum = 2; //13;
+export const defMaxNum = 3; //13;
 
 export const cardObj=( suit,
                       number =1,
@@ -25,9 +25,12 @@ suits_red.forEach(suit => {
 });
 [...Array( 3          )].map((_, i) => deck.push(cardObj( "J", "-")) );
 
-export function pick(){
+export function pick( owner, arena ){
   if( this.deck.length == 0 ) return;
-  return this.deck.splice(Math.floor(Math.random() * Math.floor(this.deck.length)), 1)[0];
+  let pickCard = this.deck.splice(Math.floor(Math.random() * Math.floor(this.deck.length)), 1)[0];
+  if(!owner){ pickCard.own = owner; }
+  if(!arena){ pickCard.arena = arena; }
+  return pickCard;
 };
 
 export default () => {
