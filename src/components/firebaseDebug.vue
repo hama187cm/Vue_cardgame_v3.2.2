@@ -91,22 +91,8 @@ export default {
     sendMessage() {
       // 空欄の場合は実行しない
       if (!this.cardObj_tmp.suit || !this.cardObj_tmp.number) return;
-      let id=1;
-      if (!this.$route.params.id ){ 
-        id =this.$route.params.id ;
-      }
-      // 送信
-      firebase.database()   //todo:後でグローバル変数化する
-        .ref("myBoard/"+id)   //1=dummt
-        // .ref("myBoard/"+this.$route.params.id)
-        .child(this.cardObj_tmp.suit+this.cardObj_tmp.number)
-        .set({
-          suit:   this.cardObj_tmp.suit,
-          number: this.cardObj_tmp.number,
-          hide:   this.cardObj_tmp.hide,
-          own:    this.cardObj_tmp.own,
-          arena:  this.cardObj_tmp.arena,
-        });
+      let id = this.getUserID() ;
+      this.setCard2F(this.cardObj_tmp);
       // 送信後inputを空にする
       // this.cardObj_tmp.suit = null;
       // this.cardObj_tmp.number = null;
