@@ -36,6 +36,11 @@
     <v-btn round type="button" @click="resetRoom">reset Room</v-btn>
     <span class="debug">{{ localMessage }}</span>
   </v-layout>
+  <v-layout row wrap justify-start class="debug">
+    <input class="grey lighten-5 ma-2 pa-2" type="text" id="existRoomNum" placeholder="input Room Number" v-model="existRoomNum" />
+    <v-btn round type="button" @click="setCardAll">Set CardAll</v-btn>
+    <span class="debug">{{ localMessage }}</span>
+  </v-layout>
 </v-container>
 </template>
 
@@ -70,21 +75,20 @@ export default {
       this.$router.push({ path: '/'+this.roomNum+'/'+this.userName+'/table/' });
       // this.sendLocalMessage( "->done" );
     },
-    resetRoom(){
-      console.dir(deck.deck);
-      this.firebaseResetCardAll(deck.deck, this.existRoomNum);
+    resetRoom() {  //need: this.existRoomNum.
+      // console.dir(deckAllArr);
+      this.firebaseResetCardAll(this.existRoomNum);
     },
-    init_cardAll( deckAllArr ) {
-      // 空欄の場合は実行しない
-      // if (!deckAllArr) return;
-
-      // this.list.push(deck());
-      deckAllArr.forEach(function(cardDmmy){
-        let card = deck.pick();
-        // console.log(JSON.stringify(this.$route.params));
-        this.setCard2F
-      });
+    setCardAll() {
+      let cardAllObj = deck.deck;
+      // console.log("at Home",JSON.stringify(this.$route.params));
+      // this.firebaseResetCardAll(this.existRoomNum);
+      this.firebaseSetCardAll( cardAllObj, this.existRoomNum);
     },
+    // ★localMessage関連
+    // firebaseSetCard_lcl( cardObj, roomNum ) {
+    //   this.firebaseSetCard( cardObj, roomNum);
+    // },
     // sendLocalMessage( msg ){
     //   this.localMessage = msg;
     //   this.timerObj = setInterval(function() { 

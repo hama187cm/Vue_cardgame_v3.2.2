@@ -26,7 +26,7 @@ const router = new Router({
     { path: "*",      name:'Home',  component: Home },
   ],
 });
-router.push({ path: '/1/user_a/table' });
+// router.push({ path: '/1/user_a/table' });
 
 Vue.config.productionTip = false;
 

@@ -59,7 +59,7 @@ export default {
   created() {
     // this.db_init();
     this.listen();
-    this.init_cardAll( deck.deck );
+    // this.setCardAll( deck.deck, this.existRoomNum);
   },
   methods: {
     // db_init() {  //todo★: try
@@ -92,34 +92,11 @@ export default {
           }
         });
     },
-    init_cardAll( dackAll ) {
-      let id=1;
-      console.log("at Home",JSON.stringify(this.$route.params));
-      if (!this.$route.params.id ){ 
-        id =this.$route.params.id ;
-      }
-      // if(this.dataAll.length!==0){
-      //   firebase.database()
-      //   .ref("myBoard"+this.$route.params.id+"/")
-      //   .remove();
-      // }
-      this.setCardAll(dackAll, id );
-    },
-    setCardAll( deckAllArr, refID=1  ) {
-      // this.dataAll.push(deck());
-      deckAllArr.forEach(function(cardDmmy){
-        let card = deck.pick();
-        firebase.database()
-          .ref("myBoard"+refID+"/")
-          .child(card.id)
-          .set({
-            suit: card.suit,
-            number: card.number,
-            own: card.own,
-            arena: card.arena,
-            hide: card.hide,
-         });
-      });
+    setCardAll( cardAllObj, roomNum=1  ) {
+      if(roomNum==null) roomNum=this.getRoomNum(roomNum );
+      // console.log("at Home",JSON.stringify(this.$route.params));
+      this.firebaseResetCardAll(roomNum );
+      this.firebaseSetCardAll( cardAllObj, roomNum );
     },
   },
 }

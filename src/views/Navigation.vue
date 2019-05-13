@@ -43,11 +43,11 @@ export default {
       ],
     }
   },
-  beforeCreate() {
-  },
   created() {
     // console.log("1", JSON.stringify(this.tabs));
     // console.log("2", JSON.stringify(this.$router.options.routes));
+
+    //todo★: あとでmethod化
     let tmpArr = [];
     this.tabs.forEach(el => {
       let tmpTab = el;

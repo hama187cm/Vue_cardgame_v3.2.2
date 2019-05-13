@@ -92,31 +92,31 @@ export default {
       // 空欄の場合は実行しない
       if (!this.cardObj_tmp.suit || !this.cardObj_tmp.number) return;
       let id = this.getUserID() ;
-      this.setCard2F(this.cardObj_tmp);
+      this.firebaseSetCard(this.cardObj_tmp);
       // 送信後inputを空にする
       // this.cardObj_tmp.suit = null;
       // this.cardObj_tmp.number = null;
       //cardObj_tmp= deck.cardObj(),
       this.sendLocalMessage( "->done" );
     },
-    sendLocalMessage( msg ){
-      this.localMessage = msg;
-      this.timerObj = setInterval(function() { 
-        this.localMessage = null; }, 1000);
-      //this.destroyed();
-    },
-    timerLocalMessage() {
-      let self = this;
-      this.timerObj = setInterval(function() {self.count()}, 3000)
-      // this.timerOn = true
-    },
+    // sendLocalMessage( msg ){
+    //   this.localMessage = msg;
+    //   this.timerObj = setInterval(function() { 
+    //     this.localMessage = null; }, 1000);
+    //   //this.destroyed();
+    // },
+    // timerLocalMessage() {
+    //   let self = this;
+    //   this.timerObj = setInterval(function() {self.count()}, 3000)
+    //   // this.timerOn = true
+    // },
     // completeLocalMessage() {
     //   clearInterval(this.timerObj)
     // }
   },
-  destroyed(){
-      clearInterval(this.timerObj);
-  },
+  // destroyed(){
+  //     clearInterval(this.timerObj);
+  // },
 }
 </script>
 
