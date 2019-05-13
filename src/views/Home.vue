@@ -25,31 +25,22 @@
       </li>
     </ul>
   </v-layout>
-  <v-layout row wrap justify-start>
-    <v-flex xs12 ma-1 pa-1 class="debug">
-      <input class="grey lighten-5 ma-2 pa-2" type="text" id="nameInput" placeholder="input Number" v-model="roomNum" />
-      <input class="grey lighten-5 ma-2 pa-2" type="text" id="nameInput" placeholder="input your User name" v-model="userName" />
-      <v-btn round type="button" @click="moveRoom">start</v-btn>
-      <span class="debug">{{ localMessage }}</span>
-    </v-flex>
+  <v-layout row wrap justify-start class="debug">
+    <input class="grey lighten-5 ma-2 pa-2" type="text" id="roomNum" placeholder="input Number" v-model="roomNum" />
+    <input class="grey lighten-5 ma-2 pa-2" type="text" id="userName" placeholder="input your User name" v-model="userName" />
+    <v-btn round type="button" @click="moveRoom">start</v-btn>
+    <span class="debug">{{ localMessage }}</span>
   </v-layout>
-  <v-container fluid grid-list-xl>
-    <v-layout row wrap justify-start>
-      <v-flex xs2 grey lighten-5 ma-1 pa-1 v-for="item in list" :key="item.id" class="debug">
-        <div class="debug">
-            {{ item.suit }}, {{ item.number }}
-        </div>
-        <span class="debug">
-            {{ item.hide }}, {{ item.own }}, {{ item.arena }}
-        </span>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <v-layout row wrap justify-start class="debug">
+    <input class="grey lighten-5 ma-2 pa-2" type="text" id="existRoomNum" placeholder="input Room Number" v-model="existRoomNum" />
+    <v-btn round type="button" @click="resetRoom">reset Room</v-btn>
+    <span class="debug">{{ localMessage }}</span>
+  </v-layout>
 </v-container>
 </template>
 
 <script>
-// import  * as deck from '../utils/deck'
+import  * as deck from '../utils/deck'
 import Navigation from "./Navigation"
 
 export default {
@@ -66,6 +57,7 @@ export default {
       localMessage: '',
       roomNum: null,
       userName: null,
+      existRoomNum: null,
     }
   },
   // created() {
@@ -77,6 +69,10 @@ export default {
       if(this.$route.params.id ||  this.$route.params.user) return;
       this.$router.push({ path: '/'+this.roomNum+'/'+this.userName+'/table/' });
       // this.sendLocalMessage( "->done" );
+    },
+    resetRoom(){
+      console.dir(deck.deck);
+      this.resetCardAll_F(deck.deck, this.existRoomNum);
     },
     // sendLocalMessage( msg ){
     //   this.localMessage = msg;

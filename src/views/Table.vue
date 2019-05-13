@@ -81,6 +81,7 @@ export default {
           if (snapshot) {
             const rootList = snapshot.val();
             let list = [];
+            if(rootList===null) return //全reomoveしたら、エラーになる
             Object.keys(rootList).forEach((val, key) => {
               rootList[val].id = val;
               list.push(rootList[val]);

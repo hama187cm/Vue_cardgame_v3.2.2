@@ -3,7 +3,8 @@ export default {
   methods: {
       // getCard2F(sessionKey) {
       // },
-      setCard2F( cardObj ) {
+      setCard2F( cardObj, roomNum=null ) {
+        if(roomNum==null) roomNum=this.getRoomNum();
         firebase.database()
           .ref("myBoard/"+roomNum )   //1=dummt
           // .ref("myBoard/"+this.$route.params.id)
@@ -20,23 +21,11 @@ export default {
       //     saveSession(sessionKey,data);
       // },
       resetCardAll_F( deckAllArr, roomNum=null ) {
-        if(roomNum===null) roomNum=this.getRoomNum();
+        if(roomNum==null) roomNum=this.getRoomNum();
         deckAllArr.forEach(function(cardDmmy){
-          let card = deck.pick();
-          // console.log(JSON.stringify(this.$route.params));
-          firebase
-            .database()
-            // .ref("myBoard/"+this.$route.params.id+"/")
-            .ref("myBoard/1") //1=dummt
-            // .ref("myBoard/"+this.$route.params.id)
-            .child(card.id)
-            .set({
-              suit: card.suit,
-              number: card.number,
-              own: card.own,
-              arena: card.arena,
-              hide: card.hide,
-           });
+          firebase.database()
+            .ref("myBoard/"+roomNum)
+            .remove()
         });
       },
       getRoomNum( dummy="1" ){
