@@ -11,7 +11,7 @@
       </li> -->
       <li class="blue-grey lighten-4 mr-2 px-1">
         <div v-if="$route.params.id">[Game ID:{{ $route.params.id }}]</div>
-        <router-link to="/1/table/" v-else>
+        <router-link to="/1/user_a/table/" v-else>
           <a>Game Room 1</a>
         </router-link>
       </li>

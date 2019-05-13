@@ -37,7 +37,7 @@ export default {
   created() {
     // deck.makeDeck();
     this.list = deck.deck;
-    this.db_init( this.list  );
+    // this.db_init( this.list  );
   //   firebase.auth().onAuthStateChanged(user => {
   //     if (user) {
   //       // User is signed in.
@@ -49,7 +49,16 @@ export default {
   //   });
   },
   methods: {
-    db_init( deckAllArr ) {
+    db_init: function() {
+      this.database = firebase.database();
+      this.cardAllRef = this.database.ref('myBoard');
+
+      var _this = this;
+      this.cardAllRef.on('value', function(snapshot) {
+        _this.cardAll = snapshot.val();
+      });
+    },
+    db_init0( deckAllArr ) {
       // 空欄の場合は実行しない
       // if (!deckAllArr) return;
 
@@ -60,7 +69,7 @@ export default {
         firebase
           .database()
           // .ref("myBoard/"+this.$route.params.id+"/")
-          .ref("myBoard/"+1+"/")
+          .ref("myBoard/"+1+"/") //1=dummt
           .child(card.id)
           .set({
             suit: card.suit,
@@ -71,9 +80,6 @@ export default {
          });
       });
     },
-    pickCard( deck ){
-
-    }
     // //匿名ユーザーでログイン
     // login() {
     //   firebase

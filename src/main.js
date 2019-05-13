@@ -19,12 +19,12 @@ const router = new Router({
   routes: [
     { path: "/",      name:'Home',  component: Home },
     // { path: '/:id', component: Home },
-    { path: "/:id/table/", name:'Table', component: Table },
+    // { path: "/:id/table/", name:'Table', component: Table },
     { path: "/:id/:user/table/", name:'Table', component: Table },
     { path: "*",      name:'Home',  component: Home },
   ],
 });
-// router.push({ path: '/1/table' });
+router.push({ path: '/1/user_a/table' });
 
 Vue.config.productionTip = false;
 

@@ -95,13 +95,13 @@ export default {
     console.dir(myCards);
     let pickCard = deck.pick("A");
     pickCard.own = "A";
-    if(myCards.length==0 && this.$root.$cardAll==4 ){
+    // if(myCards.length==0 && this.$root.$cardAll==4 ){
       this.arena.push(   deck.pick());
       this.arena.push(   deck.pick());
       this.newCard.push( deck.pick());
       this.hand.push(    deck.pick());
       // console.log( this.arena );
-    }
+    // }
   },
   methods: {
     draw () {

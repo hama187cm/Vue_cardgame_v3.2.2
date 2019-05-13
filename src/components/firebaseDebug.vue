@@ -75,7 +75,7 @@ export default {
     listen() {
       firebase
         .database()
-        .ref("myBoard/")
+          .ref("myBoard/"+1+"/") //1=dummt
         .on("value", snapshot => {
           // eslint-disable-line
           if (snapshot) {

@@ -25,7 +25,7 @@ suits_red.forEach(suit => {
 });
 [...Array( 3          )].map((_, i) => deck.push(cardObj( "J", "-")) );
 
-export function pick( owner, arena ){
+export function pick( owner=null, arena=null ){
   if( this.deck.length == 0 ) return;
   let pickCard = this.deck.splice(Math.floor(Math.random() * Math.floor(this.deck.length)), 1)[0];
   if(!owner){ pickCard.own = owner; }
