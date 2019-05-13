@@ -59,7 +59,6 @@ export default {
   created() {
     // this.db_init();
     this.listen();
-    // this.setCardAll( deck.deck, this.existRoomNum);
   },
   methods: {
     // db_init() {  //todo★: try
@@ -91,12 +90,6 @@ export default {
             // this.listen();
           }
         });
-    },
-    setCardAll( cardAllObj, roomNum=1  ) {
-      if(roomNum==null) roomNum=this.getRoomNum(roomNum );
-      // console.log("at Home",JSON.stringify(this.$route.params));
-      this.firebaseResetCardAll(roomNum );
-      this.firebaseSetCardAll( cardAllObj, roomNum );
     },
   },
 }
