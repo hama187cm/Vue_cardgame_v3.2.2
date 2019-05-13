@@ -69,7 +69,7 @@ export default {
   methods: {
     moveRoom() {
       // 空欄の場合は実行しない
-      if(this.$route.params.id && this.$route.params.user) return;
+      if(this.$route.params.id ||  this.$route.params.user) return;
       this.$router.push({ path: '/'+this.roomNum+'/'+this.userName+'/table/' });
       // this.sendLocalMessage( "->done" );
     },

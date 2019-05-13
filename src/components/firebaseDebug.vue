@@ -2,20 +2,34 @@
 <v-container fluid grid-list-xs grey lighten-3 id="firebaseDebug">
   <hr />
   <v-layout row wrap justify-start>
-    <v-flex xs3 ma-1 pa-1 class="debug">
-      <input class="input" type="txt" id="nameInput" placeholder="Suit" v-model="suit" />
-    </v-flex>
-    <v-flex xs3 ma-1 pa-1 class="debug">
-            <input class="input" type="text" id="nameInput" placeholder="Number" v-model="number" />
-    </v-flex>
-    <v-flex xs3 ma-1 pa-1 class="debug">
-      <button class="button is-success" type="button" @click="sendMessage">送信</button>
+    <span>firebase debagu Component</span>
+  </v-layout>
+  <v-layout row wrap justify-start>
+    <div>
+      <input class="ma-2 pa-2 grey lighten-5" type="txt" id="suit" placeholder="Suit" v-model="cardObj_tmp.suit" />
+    </div>
+    <div>
+      <input class="ma-2 pa-2 grey lighten-5 debug" type="text" id="number" placeholder="Number" v-model="cardObj_tmp.number" />
+    </div>
+    <div>
+      <input class="ma-2 pa-2 grey lighten-5 debug" type="text" id="hide" placeholder="hideFlg" v-model="cardObj_tmp.hide" />
+    </div>
+  </v-layout>
+  <v-layout row wrap justify-start>
+    <div>
+      <input class="ma-2 pa-2 grey lighten-5" type="txt" id="own" placeholder="own" v-model="cardObj_tmp.own" />
+    </div>
+    <div>
+      <input class="ma-2 pa-2 grey lighten-5 debug" type="text" id="arena" placeholder="arena" v-model="cardObj_tmp.arena" />
+    </div>
+    <div>
+      <button class="ma-2 pa-2 grey lighten-5 debug" type="button" @click="sendMessage">送信</button>
       <span class="debug">{{ localMessage }}</span>
-    </v-flex>
+    </div>
   </v-layout>
   <v-container fluid grid-list-xl>
     <v-layout row wrap justify-start>
-      <v-flex xs2 grey lighten-5 ma-1 pa-1 v-for="item in list" :key="item.id" class="debug">
+      <v-flex xs2 grey lighten-5 ma-1 pa-1 v-for="item in dataAll" :key="item.id" class="debug">
         <div class="debug">
             {{ item.suit }}, {{ item.number }}
         </div>
@@ -35,14 +49,19 @@ export default {
   name: 'firebaseDebug',
   // components: {  },
   props: {  
-    list: {type: Array},
+    dataAll: {type: Array},
     // mainMessage: {type: String},
   },
   data () {
     return {
-      // list: [], // 最新状態はここにコピーされる
-      suit: "", // 名前
-      number: "", // 送信メッセージ
+      // dataAll: [], // 最新状態はここにコピーされる
+      cardObj_tmp: {
+        suit: null, // 名前
+        number: null, // 送信メッセージ
+        hide: false,
+        own: null,
+        arena: null,
+      },
       localMessage: "",
       min: 59,
       sec: 59,
@@ -54,61 +73,49 @@ export default {
     // this.listen();
   },
   methods: {
-    // db_init( deckAllArr ) {
-    //   // 空欄の場合は実行しない
-    //   if (!deckAllArr) return;
-    //   deckAllArr.forEach(function(card){
-    //     firebase
-    //       .database()
-    //       .ref("myBoard1/")
-    //       .push({
-    //         id: card.suit+card.number,
-    //         suit: card.suit,
-    //         number: card.number,
-    //         own: null,
-    //         arena: null,
-    //         hide: null,
-    //      });
-    //   });
-    // },
     // データベースの変更を購読、最新状態をlistにコピーする
-    listen() {
-      firebase
-        .database()
-          .ref("myBoard/"+1+"/") //1=dummt
-        .on("value", snapshot => {
-          // eslint-disable-line
-          if (snapshot) {
-            const rootList = snapshot.val();
-            let list = [];
-            Object.keys(rootList).forEach((val, key) => {
-              rootList[val].id = val;
-              list.push(rootList[val]);
-            });
-            // this.list = list;
-            // this.$parent.list = list;
-            this.listen();
-          }
-        });
-    },
+    // listen() {
+    //   firebase
+    //     .database()
+    //     .ref("myBoard/1")
+    //     // .ref("myBoard/"+this.$route.params.id)
+    //     .on("value", snapshot => {
+    //       // eslint-disable-line
+    //       if (snapshot) {
+    //         const rootList = snapshot.val();
+    //         let list = [];
+    //         Object.keys(rootList).forEach((val, key) => {
+    //           rootList[val].id = val;
+    //           list.push(rootList[val]);
+    //         });
+    //         this.dataAll = list;
+    //         // this.$parent.dataAll = list;
+    //         // this.listen();
+    //       }
+    //     });
+    // },
     sendMessage() {
       // 空欄の場合は実行しない
-      if (!this.suit || !this.number) return;
+      if (!this.cardObj_tmp.suit || !this.cardObj_tmp.number) return;
+      let id=1;
+      if (!this.$route.params.id ){ 
+        id =this.$route.params.id ;
+      }
       // 送信
-      firebase
-        .database()
-        .ref("myBoard/")
-        .child(this.suit+this.number)
+      firebase.database()   //todo:後でグローバル変数化する
+        .ref("myBoard/"+id)   //1=dummt
+        // .ref("myBoard/"+this.$route.params.id)
+        .child(this.cardObj_tmp.suit+this.cardObj_tmp.number)
         .set({
-          suit: this.suit,
-          number: this.number,
-          own: null,
-          arena: null,
-          hide: null,
+          suit:   this.cardObj_tmp.suit,
+          number: this.cardObj_tmp.number,
+          hide:   this.cardObj_tmp.hide,
+          own:    this.cardObj_tmp.own,
+          arena:  this.cardObj_tmp.arena,
         });
       // 送信後inputを空にする
-      this.suit = "";
-      this.number = "";
+      this.cardObj_tmp.suit = null;
+      this.cardObj_tmp.number = null;
       this.sendLocalMessage( "->done" );
     },
     sendLocalMessage( msg ){

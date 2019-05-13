@@ -20,7 +20,7 @@
   </v-layout>
 
   <player :mainMessageAtView="mainMessage" />
-  <firebaseDebug v-bind:list= "list"/>
+  <firebaseDebug v-bind:dataAll= "dataAll"/>
 <!-- </v-container> -->
 </v-flex>
 </template>
@@ -40,42 +40,73 @@ export default {
   },
   // props: {
   //   AppMessage: {type: String},
-  //   // list: {type: Array}, // 最新状態はここにコピーされる
+  //   // dataAll: {type: Array}, // 最新状態はここにコピーされる
   // },
   data () {
     return {
       mainMessage: 'Welcome to Game',
       // ⬇firebase
-      list: [], // 最新状態はここにコピーされる
+      dataAll: [], // 最新状態はここにコピーされる
     }
   },
   created() {
     // this.$parent.mainMessage = "test";
     
-    // this.db_init( deck.deck );
+    // this.db_init();
+    this.listen();
+    // this.init_cardAll( deck.deck );
   },
   methods: {
-    db_init( deckAllArr ) {
-      // 空欄の場合は実行しない
-      // if (!deckAllArr) return;
+    db_init() {
+      this.database = firebase.database();
+      this.cardAllRef = this.database.ref('myBoard');
 
-      // this.list.push(deck());
-      deckAllArr.forEach(function(cardDmmy){
-        let card = deck.pick();
-        console.log("at Home",JSON.stringify(this.$route.params));
-        firebase
-          .database()
-          .ref("myBoard"+this.$route.params.id+"/")
-          .child(card.id)
-          .set({
-            suit: card.suit,
-            number: card.number,
-            own: card.own,
-            arena: card.arena,
-            hide: card.hide,
-         });
+      this.cardAllRef.on('value', function(snapshot) {
+        this.cardAll = snapshot.val();
       });
     },
+    // データベースの変更を購読、最新状態をlistにコピーする
+    listen() {
+      firebase
+        .database()
+        .ref("myBoard/1")
+        // .ref("myBoard/"+this.$route.params.id)
+        .on("value", snapshot => {
+          // eslint-disable-line
+          if (snapshot) {
+            const rootList = snapshot.val();
+            let list = [];
+            Object.keys(rootList).forEach((val, key) => {
+              rootList[val].id = val;
+              list.push(rootList[val]);
+            });
+            this.dataAll = list;
+            // this.$parent.dataAll = list;
+            // this.listen();
+          }
+        });
+    },
+    // init_cardAll( deckAllArr ) {
+    //   // 空欄の場合は実行しない
+    //   // if (!deckAllArr) return;
+
+    //   // this.dataAll.push(deck());
+    //   deckAllArr.forEach(function(cardDmmy){
+    //     let card = deck.pick();
+    //     console.log("at Home",JSON.stringify(this.$route.params));
+    //     firebase
+    //       .database()
+    //       .ref("myBoard"+this.$route.params.id+"/")
+    //       .child(card.id)
+    //       .set({
+    //         suit: card.suit,
+    //         number: card.number,
+    //         own: card.own,
+    //         arena: card.arena,
+    //         hide: card.hide,
+    //      });
+    //   });
+    // },
   },
 }
 </script>
