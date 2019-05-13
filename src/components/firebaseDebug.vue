@@ -43,7 +43,7 @@
 </template>
 
 <script>
-// import  * as deck from '../utils/deck'
+import  * as deck from '../utils/deck'
 
 export default {
   name: 'firebaseDebug',
@@ -55,13 +55,7 @@ export default {
   data () {
     return {
       // dataAll: [], // 最新状態はここにコピーされる
-      cardObj_tmp: {
-        suit: null, // 名前
-        number: null, // 送信メッセージ
-        hide: false,
-        own: null,
-        arena: null,
-      },
+      cardObj_tmp: deck.cardObj(),
       localMessage: "",
       min: 59,
       sec: 59,
@@ -114,8 +108,9 @@ export default {
           arena:  this.cardObj_tmp.arena,
         });
       // 送信後inputを空にする
-      this.cardObj_tmp.suit = null;
-      this.cardObj_tmp.number = null;
+      // this.cardObj_tmp.suit = null;
+      // this.cardObj_tmp.number = null;
+      //cardObj_tmp= deck.cardObj(),
       this.sendLocalMessage( "->done" );
     },
     sendLocalMessage( msg ){

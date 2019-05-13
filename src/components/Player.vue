@@ -47,7 +47,7 @@
     <v-flex xs12 text-align-start>
       <div class="teal lighten-4 list">
         <draggable class="draggbleArea" group="cards" :list="hand2" :move="beforeMove" @end="onEnd" :animation=300>
-          <card v-for="(card, index) in hand2" :key="index"
+          <card v-for="(card, index) in hand" :key="index"
             :suit="card.suit" :number="card.number" :hide="card.hide" :color="card.color">
           </card>
         </draggable>
@@ -67,9 +67,7 @@ import Card from './Card'
 export default {
   name: 'player',
   components: { draggable, Card },
-  props: {
-    mainMessageAtView: {type: String},
-  },
+  props: ["mainMessageAtView","dataAll"],
   data () {
     return {
       list: [],
@@ -88,30 +86,30 @@ export default {
   //   }
   // },
   created() {
-    console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
-    console.dir(this.$root.$cardAll);
+    // console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
+    // console.dir(this.$root.$cardAll);
     // console.log("deck :", JSON.stringify( deck ))
     let myCards = this.arena.concat(this.newCard, this.hand, this.hand2 );
     console.dir(myCards);
-    let pickCard = deck.pick("A");
-    pickCard.own = "A";
-    // if(myCards.length==0 && this.$root.$cardAll==4 ){
-      this.arena.push(   deck.pick());
-      this.arena.push(   deck.pick());
-      this.newCard.push( deck.pick());
-      this.hand.push(    deck.pick());
-      // console.log( this.arena );
-    // }
+    let pickCard = deck.pick();
+    if(myCards.length===0 || this.$root.$cardAll===4 ){
+      // this.arena.push(   deck.pick());
+      // this.arena.push(   deck.pick());
+      // this.newCard.push( deck.pick());
+      // this.hand.push(    deck.pick());
+      console.log( pickCard );
+    }
   },
   methods: {
     draw () {
-      let card = deck.pick();
+      let card = deck.pick( this.getUserID() );
       if( !card ){
         // this.$parent.mainMessage = "no card in deck";
         this.nothing_in_deck_flg = true
         return;
       }
-      console.log( card );
+      // card.own=this.getUserID();
+      this.setCard2F( card );
       this.newCard.push( card );
     },
     beforeMove: function(evt) {

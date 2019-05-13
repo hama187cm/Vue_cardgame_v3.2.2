@@ -12,6 +12,8 @@ import Home from "./views/Home";
 // import Home from "./views/Home";
 import Table from "./views/Table";
 
+import util_firebase from './utils/util_firebase'
+
 Vue.use(Vuetify);
 
 Vue.use(Router);
@@ -27,6 +29,8 @@ const router = new Router({
 router.push({ path: '/1/user_a/table' });
 
 Vue.config.productionTip = false;
+
+Vue.mixin(util_firebase);
 
 new Vue({
   router,

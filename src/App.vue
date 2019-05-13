@@ -36,9 +36,9 @@ export default {
   // created() {
   created() {
     // deck.makeDeck();
-    this.list = deck.deck;
     // this.db_init();
-    this.init_cardAll( this.list  );
+    // this.list = deck.deck;
+    // this.init_cardAll( this.list  );
     // this.auth_check();
   },
   methods: {

@@ -6,8 +6,8 @@ export const suits_red = ['♦', '♥'];
 export const allSuits = suits_def.concat( suits_red );
 export const defMaxNum = 3; //13;
 
-export const cardObj=( suit,
-                      number =1,
+export const cardObj=( suit =null,
+                      number =null,
                       color =null, //null= black
                       hide  =false,
                       own   =null,
@@ -28,8 +28,8 @@ suits_red.forEach(suit => {
 export function pick( owner=null, arena=null ){
   if( this.deck.length == 0 ) return;
   let pickCard = this.deck.splice(Math.floor(Math.random() * Math.floor(this.deck.length)), 1)[0];
-  if(!owner){ pickCard.own = owner; }
-  if(!arena){ pickCard.arena = arena; }
+  if(owner){ pickCard.own = owner; }
+  if(arena){ pickCard.arena = arena; }
   return pickCard;
 };
 

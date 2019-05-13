@@ -15,6 +15,11 @@
           <a>Game Room 1</a>
         </router-link>
       </li>
+      <!-- <li class="blue-grey lighten-4 mr-2 px-1">
+        <router-link to="/1/user_a/table/">
+          <a>Game Room 1</a>
+        </router-link>
+      </li> -->
       <li class="mr-2" >
         <div v-if="mainMessage">"{{ mainMessage }}"</div>
       </li>
