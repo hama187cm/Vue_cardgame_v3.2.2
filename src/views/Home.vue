@@ -72,7 +72,18 @@ export default {
     },
     resetRoom(){
       console.dir(deck.deck);
-      this.resetCardAll_F(deck.deck, this.existRoomNum);
+      this.firebaseResetCardAll(deck.deck, this.existRoomNum);
+    },
+    init_cardAll( deckAllArr ) {
+      // 空欄の場合は実行しない
+      // if (!deckAllArr) return;
+
+      // this.list.push(deck());
+      deckAllArr.forEach(function(cardDmmy){
+        let card = deck.pick();
+        // console.log(JSON.stringify(this.$route.params));
+        this.setCard2F
+      });
     },
     // sendLocalMessage( msg ){
     //   this.localMessage = msg;

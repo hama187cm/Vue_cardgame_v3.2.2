@@ -51,29 +51,29 @@ export default {
     //     _this.cardAll = snapshot.val();
     //   });
     // },
-    init_cardAll( deckAllArr ) {
-      // 空欄の場合は実行しない
-      // if (!deckAllArr) return;
+    // init_cardAll( deckAllArr ) {
+    //   // 空欄の場合は実行しない
+    //   // if (!deckAllArr) return;
 
-      // this.list.push(deck());
-      deckAllArr.forEach(function(cardDmmy){
-        let card = deck.pick();
-        // console.log(JSON.stringify(this.$route.params));
-        firebase
-          .database()
-          // .ref("myBoard/"+this.$route.params.id+"/")
-          .ref("myBoard/1") //1=dummt
-          // .ref("myBoard/"+this.$route.params.id)
-          .child(card.id)
-          .set({
-            suit: card.suit,
-            number: card.number,
-            own: card.own,
-            arena: card.arena,
-            hide: card.hide,
-         });
-      });
-    },
+    //   // this.list.push(deck());
+    //   deckAllArr.forEach(function(cardDmmy){
+    //     let card = deck.pick();
+    //     // console.log(JSON.stringify(this.$route.params));
+    //     firebase
+    //       .database()
+    //       // .ref("myBoard/"+this.$route.params.id+"/")
+    //       .ref("myBoard/1") //1=dummt
+    //       // .ref("myBoard/"+this.$route.params.id)
+    //       .child(card.id)
+    //       .set({
+    //         suit: card.suit,
+    //         number: card.number,
+    //         own: card.own,
+    //         arena: card.arena,
+    //         hide: card.hide,
+    //      });
+    //   });
+    // },
     // auth_check(){
     //   firebase.auth().onAuthStateChanged(user => {
     //     if (user) {

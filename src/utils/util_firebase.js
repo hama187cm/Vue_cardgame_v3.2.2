@@ -3,7 +3,7 @@ export default {
   methods: {
       // getCard2F(sessionKey) {
       // },
-      setCard2F( cardObj, roomNum=null ) {
+      firebaseSetCard( cardObj, roomNum=null ) {
         if(roomNum==null) roomNum=this.getRoomNum();
         firebase.database()
           .ref("myBoard/"+roomNum )   //1=dummt
@@ -20,7 +20,7 @@ export default {
       // deleteCard2F(sessionKey,index) {
       //     saveSession(sessionKey,data);
       // },
-      resetCardAll_F( deckAllArr, roomNum=null ) {
+      firebaseResetCardAll( deckAllArr, roomNum=null ) {
         if(roomNum==null) roomNum=this.getRoomNum();
         deckAllArr.forEach(function(cardDmmy){
           firebase.database()

@@ -109,7 +109,7 @@ export default {
         return;
       }
       // card.own=this.getUserID();
-      this.setCard2F( card );
+      this.firebaseSetCard( card );
       this.newCard.push( card );
     },
     beforeMove: function(evt) {
