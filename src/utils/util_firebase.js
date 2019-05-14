@@ -1,14 +1,12 @@
 // const $firebaseMainKey= "myBoard/"
 export default {
   methods: {
-      // getCard2F(sessionKey) {
-      // },
       firebaseSetCard( cardObj, roomNum=null ) {
         // console.log("roomNum 1:"+ roomNum)
-        if(roomNum==null) roomNum=this.getRoomNum();
+        // if(roomNum==null) roomNum=this.getRoomNum();
         // console.log("roomNum 2:"+ roomNum);
         firebase.database()
-        .ref("myBoard/"+roomNum )   //1=dummt
+        .ref("myBoard/"+this.getRoomNum( roomNum ) ) 
         // .ref("myBoard/"+this.$route.params.id)
         .child( cardObj.suit+ cardObj.number)
         .set({
@@ -23,7 +21,7 @@ export default {
 
       firebaseSetCardAll( cardAllObj, roomNum=null ) {
         console.log("firebaseSetCardAll");
-        console.dir(cardAllObj);
+        // console.dir(cardAllObj);
         let cardAllObj_Tmp = {};
           // Old verson
           // firebase.database()
@@ -41,20 +39,20 @@ export default {
           cardAllObj_Tmp[ cardObj.id ].id = null;
           // cardAllObj_Tmp[ cardObj.id ].own = 1;  //NG
         }  );
-        console.dir(cardAllObj);
-        if(roomNum==null) roomNum=this.getRoomNum();
+        // console.dir(cardAllObj);
+        // if(roomNum==null) roomNum=this.getRoomNum();
         firebase.database()
-        .ref("myBoard/" )   //1=dummt
-        .child( roomNum )
+        .ref("myBoard/"+this.getRoomNum( roomNum ) ) 
         .set( cardAllObj_Tmp );
+        console.dir( this.getRoomNum() );
       },
       // deleteCard2F(sessionKey,index) {
       //     saveSession(sessionKey,data);
       // },
       firebaseResetCardAll( roomNum=null ) {
-        if(roomNum==null) roomNum=this.getRoomNum();
+        // if(roomNum==null) roomNum=this.getRoomNum();
         firebase.database()
-          .ref("myBoard/"+roomNum)
+        .ref("myBoard/"+this.getRoomNum( roomNum ) ) 
           .remove()
       },
       getRoomNum( dummy="1" ){

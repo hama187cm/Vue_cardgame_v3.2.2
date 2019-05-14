@@ -46,8 +46,8 @@ export default {
     listen() {  // データベースの変更を購読、最新状態をlistにコピーする
       firebase
         .database()
+        // .ref("myBoard/"+this.getRoomNum() ) 
         .ref("myBoard/1")
-        // .ref("myBoard/"+this.$route.params.id)
         .on("value", snapshot => {
           // eslint-disable-line
           if (snapshot) {

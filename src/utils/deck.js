@@ -17,7 +17,7 @@ export const cardObj=( suit =null,
               };
 };
 // ⬇no test then no use
-// export const addCard_J = cardObj( "j", "-");
+export const addCard_J = cardObj( "j", "-");
 
 suits_def.forEach(suit => {
   [...Array( defMaxNum )].map((_, i) => deck.push(cardObj( suit, i+1)) );
@@ -25,7 +25,7 @@ suits_def.forEach(suit => {
 suits_red.forEach(suit => {
   [...Array( defMaxNum )].map((_, i) => deck.push(cardObj( suit, i+1, "red")) );
 });
-[...Array( 3          )].map((_, i) => deck.push(cardObj( "J", "-")) );
+[...Array( 3          )].map((_, i) => deck.push(addCard_J ) );
 
 export function init(){
   // ※後でリファクタリング
@@ -36,8 +36,9 @@ export function init(){
   suits_red.forEach(suit => {
     [...Array( defMaxNum )].map((_, i) => this.deck.push(cardObj( suit, i+1, "red")) );
   });
-  [...Array( 3          )].map((_, i) => this.deck.push(cardObj( "J", "-")) );
-  // console.dir( this.deck ); 
+  suits_red.forEach(suit => {
+    [...Array( 2 )].map((_, i) => this.deck.push(cardObj( "j", i+1)) );
+  });
 }
 
 // what change array to obj
