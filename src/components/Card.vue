@@ -1,5 +1,5 @@
 <template>
-<div class="card cardRow">
+<div class="card cardRow" :id="this.suit+this.number">
   <div class="cardStyle cardStyle_backPlus" v-if="this.hide">
     back
   </div>
@@ -28,17 +28,11 @@ export default {
   // },
   // data () {
   //   return {
-  //     suitColor2: false,
-  //     allStuits: deck.allSuits,
+  //     cardId: null
   //   }
   // },
   // created: function () {
-  //   for( let val of deck.suits_red){
-  //     if(this.suit==val){
-  //       this.suitColor2 = true;
-  //     }
-  //     // console.log(this.suit +"/"+val);
-  //   }
+  //   this.id = this.suit+this.number;
   // },
   // computed: {
   //   getcardData: function () {

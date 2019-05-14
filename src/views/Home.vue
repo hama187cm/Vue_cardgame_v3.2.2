@@ -9,10 +9,14 @@
           匿名ユーザーでログイン
         </v-btn>
       </li> -->
-      <li class="blue-grey lighten-4 mr-2 px-1">
-        <div v-if="$route.params.id">[Game ID:{{ $route.params.id }}]</div>
-        <router-link to="/1/user_a/table/" v-else>
-          <a>Game Room 1</a>
+      <li class="blue-grey lighten-4 mr-2 px-1 devOnly">
+        <router-link to="/1/user_a/table/">
+          <a>1/a</a>
+        </router-link>
+      </li>
+      <li class="blue-grey lighten-4 mr-2 px-1 devOnly">
+        <router-link to="/1/user_b/table/">
+          <a>1/b</a>
         </router-link>
       </li>
       <!-- <li class="blue-grey lighten-4 mr-2 px-1">
@@ -68,7 +72,7 @@ export default {
       localMessage: '',
       roomNum: null,
       userName: null,
-      existRoomNum: null,
+      existRoomNum: 1,
     }
   },
   created() {

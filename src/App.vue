@@ -64,7 +64,6 @@ export default {
           }
         });
     },
-
     // init_cardAll( deckAllArr ) {
     //   // 空欄の場合は実行しない
     //   // if (!deckAllArr) return;

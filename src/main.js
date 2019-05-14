@@ -23,7 +23,7 @@ const router = new Router({
     // { path: '/:id', component: Home },
     // { path: "/:id/table/", name:'Table', component: Table },
     { path: "/:id/:user/table/", name:'Table', component: Table },
-    { path: "*",      name:'Home',  component: Home },
+    { path: "*",      name:'Unknown',  component: Home },
   ],
 });
 // router.push({ path: '/1/user_a/table' });
