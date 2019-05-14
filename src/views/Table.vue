@@ -1,5 +1,6 @@
 <template>
-<v-flex xs12 mx-1 pa-0 id="$route.name">
+<!-- <v-container fluid grid-list-xs grey lighten-3 id="home"> -->
+<v-flex xs10 mx-1 pa-0 id="$route.name">
 <!-- <v-container fluid grid-list-xs id="app"> -->
   <v-layout row wrap justify-start class="navi_bar">
     <navigation></navigation>
@@ -30,6 +31,7 @@
   <firebaseDebug v-bind:dataAll= "dataAll"/>
 <!-- </v-container> -->
 </v-flex>
+<!-- </v-container> -->
 </template>
 
 <script>
@@ -45,52 +47,42 @@ export default {
               Navigation, 
               firebaseDebug,
   },
-  // props: {
-  //   AppMessage: {type: String},
-  //   // dataAll: {type: Array}, // 最新状態はここにコピーされる
-  // },
+  props: {
+    dataAll: {type: Array}, // 最新状態はここにコピーされる
+    AppMessage: {type: String},
+  },
   data () {
     return {
+      // dataAll: [], // 最新状態はここにコピーされる
       mainMessage: 'Welcome to Game',
-      // ⬇firebase
-      dataAll: [], // 最新状態はここにコピーされる
     }
   },
   created() {
-    // this.db_init();
-    this.listen();
+    // this.listen();
   },
   methods: {
-    // db_init() {  //todo★: try
-    //   this.database = firebase.database();
-    //   this.cardAllRef = this.database.ref('myBoard');
-
-    //   this.cardAllRef.on('value', function(snapshot) {
-    //     this.cardAll = snapshot.val();
-    //   });
+    // ⬇App.vueで実行している
+    // listen() {  // データベースの変更を購読、最新状態をlistにコピーする
+    //   firebase
+    //     .database()
+    //     .ref("myBoard/1")
+    //     // .ref("myBoard/"+this.$route.params.id)
+    //     .on("value", snapshot => {
+    //       // eslint-disable-line
+    //       if (snapshot) {
+    //         const rootList = snapshot.val();
+    //         let list = [];
+    //         if(rootList===null) return //全reomoveしたら、エラーになる
+    //         Object.keys(rootList).forEach((val, key) => {
+    //           rootList[val].id = val;
+    //           list.push(rootList[val]);
+    //         });
+    //         this.dataAll = list;
+    //         // this.$parent.dataAll = list;
+    //         // this.listen();
+    //       }
+    //     });
     // },
-    // データベースの変更を購読、最新状態をlistにコピーする
-    listen() {
-      firebase
-        .database()
-        .ref("myBoard/1")
-        // .ref("myBoard/"+this.$route.params.id)
-        .on("value", snapshot => {
-          // eslint-disable-line
-          if (snapshot) {
-            const rootList = snapshot.val();
-            let list = [];
-            if(rootList===null) return //全reomoveしたら、エラーになる
-            Object.keys(rootList).forEach((val, key) => {
-              rootList[val].id = val;
-              list.push(rootList[val]);
-            });
-            this.dataAll = list;
-            // this.$parent.dataAll = list;
-            // this.listen();
-          }
-        });
-    },
   },
 }
 </script>

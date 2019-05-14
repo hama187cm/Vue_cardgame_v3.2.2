@@ -47,7 +47,7 @@
     <v-flex xs12 text-align-start>
       <div class="teal lighten-4 list">
         <draggable class="draggbleArea" group="cards" :list="hand2" :move="beforeMove" @end="onEnd" :animation=300>
-          <card v-for="(card, index) in hand" :key="index"
+          <card v-for="(card, index) in hand2" :key="index"
             :suit="card.suit" :number="card.number" :hide="card.hide" :color="card.color">
           </card>
         </draggable>
@@ -98,6 +98,8 @@ export default {
       // this.newCard.push( deck.pick());
       // this.hand.push(    deck.pick());
       console.log( pickCard );
+
+      this.hand = this.dataAll;
     }
   },
   methods: {
@@ -123,6 +125,17 @@ export default {
       // return evt.relatedContext.list.name !== 'newCard';
     },
   },
+  watch: {
+    // hand(val, oldVal) {
+    //   this.hand = this.dataAll;
+    // },
+    dataAll: {
+      handler(val, oldVal) {
+        this.hand = this.dataAll;
+      },
+      deep: true
+    }
+  }
 }
 </script>
 

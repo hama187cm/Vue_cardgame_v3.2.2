@@ -4,7 +4,9 @@ export default {
       // getCard2F(sessionKey) {
       // },
       firebaseSetCard( cardObj, roomNum=null ) {
+        // console.log("roomNum 1:"+ roomNum)
         if(roomNum==null) roomNum=this.getRoomNum();
+        // console.log("roomNum 2:"+ roomNum);
         firebase.database()
         .ref("myBoard/"+roomNum )   //1=dummt
         // .ref("myBoard/"+this.$route.params.id)
@@ -16,9 +18,12 @@ export default {
           own:    cardObj.own,
           arena:  cardObj.arena,
         });
+        // console.log("roomNum 3:"+ roomNum);
       },
 
       firebaseSetCardAll( cardAllObj, roomNum=null ) {
+        console.log("firebaseSetCardAll");
+        console.dir(cardAllObj);
         let cardAllObj_Tmp = {};
           // Old verson
           // firebase.database()
@@ -36,7 +41,7 @@ export default {
           cardAllObj_Tmp[ cardObj.id ].id = null;
           // cardAllObj_Tmp[ cardObj.id ].own = 1;  //NG
         }  );
-
+        console.dir(cardAllObj);
         if(roomNum==null) roomNum=this.getRoomNum();
         firebase.database()
         .ref("myBoard/" )   //1=dummt
@@ -53,14 +58,14 @@ export default {
           .remove()
       },
       getRoomNum( dummy="1" ){
-        if(this.$route.params.id){   //dev用
+        if(!this.$route.params.id){   //dev用
           console.log("no $route.params.id");
           return dummy;
         }
         return this.$route.params.id
       },
       getUserID( dummy="user_a" ){
-        if(this.$route.params.user){   //dev用
+        if(!this.$route.params.user){   //dev用
           console.log("no $route.params.user");
           return dummy;
         }

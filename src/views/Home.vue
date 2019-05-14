@@ -1,5 +1,5 @@
 <template>
-<v-container fluid grid-list-xs grey lighten-3 id="firebaseDebug">
+<v-container fluid grid-list-xs grey lighten-3 id="$route.name">
   <v-layout row wrap justify-start class="navi_bar">
     <navigation></navigation>
                   <!-- v-on:panret_login="login" -->
@@ -41,23 +41,29 @@
     <v-btn round type="button" @click="setCardAll">Set CardAll</v-btn>
     <span class="debug">{{ localMessage }}</span>
   </v-layout>
+  <v-layout row wrap justify-start>
+    <firebaseDebug v-bind:dataAll= "dataAll"/>
+  </v-layout>
 </v-container>
 </template>
 
 <script>
 import  * as deck from '../utils/deck'
 import Navigation from "./Navigation"
+import firebaseDebug from '../components/firebaseDebug'
 
 export default {
   name: 'Home',
   components:{ Navigation,
+              firebaseDebug,
   },
   props: {  
-    list: {type: Array},
-    // mainMessage: {type: String},
+    AppMessage: {type: String},
+    dataAll: {type: Array}, // 最新状態はここにコピーされる
   },
   data () {
     return {
+      // dataAll: [], // 最新状態はここにコピーされる
       mainMessage: 'Making Game Room',
       localMessage: '',
       roomNum: null,
@@ -65,9 +71,9 @@ export default {
       existRoomNum: null,
     }
   },
-  // created() {
-  //   // this.listen();
-  // },
+  created() {
+    // this.listen();
+  },
   methods: {
     moveRoom() {
       // 空欄の場合は実行しない
@@ -80,11 +86,35 @@ export default {
       this.firebaseResetCardAll(this.existRoomNum);
     },
     setCardAll() {
+      deck.init();
       let cardAllObj = deck.deck;
-      // console.log("at Home",JSON.stringify(this.$route.params));
-      // this.firebaseResetCardAll(this.existRoomNum);
+      // console.log("at Home",JSON.stringify(this.$route.params))
+      // console.dir(cardAllObj);
+      this.firebaseResetCardAll(this.existRoomNum);
       this.firebaseSetCardAll( cardAllObj, this.existRoomNum);
     },
+    // ⬇App.vueで実行している
+    // listen() {
+    //   firebase
+    //     .database()
+    //     .ref("myBoard/1")
+    //     // .ref("myBoard/"+this.$route.params.id)
+    //     .on("value", snapshot => {
+    //       // eslint-disable-line
+    //       if (snapshot) {
+    //         const rootList = snapshot.val();
+    //         let list = [];
+    //         if(rootList===null) return //全reomoveしたら、エラーになる
+    //         Object.keys(rootList).forEach((val, key) => {
+    //           rootList[val].id = val;
+    //           list.push(rootList[val]);
+    //         });
+    //         this.dataAll = list;
+    //         // this.$parent.dataAll = list;
+    //         // this.listen();
+    //       }
+    //     });
+    // },
     // ★localMessage関連
     // firebaseSetCard_lcl( cardObj, roomNum ) {
     //   this.firebaseSetCard( cardObj, roomNum);

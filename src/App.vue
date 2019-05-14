@@ -2,7 +2,8 @@
 <div id="app">
   <div class="lable" v-if="AppMessage">"{{ AppMessage }}"</div>
   <!-- <router-view :AppMessage="AppMessage" -->
-  <router-view
+  <router-view :AppMessage="AppMessage" 
+              :dataAll="dataAll"
   ></router-view>
 </div>
 </template>
@@ -22,7 +23,8 @@ export default {
   data () {
     return {
       AppMessage: this.$root.$AppMessage,
-      list: [], // 最新状態はここにコピーされる
+      // list: [], // ⬇
+      dataAll: [], // 最新状態はここにコピーされる
     }
   },
   beforeCreate(){
@@ -35,22 +37,34 @@ export default {
   },
   // created() {
   created() {
+    this.listen();
     // deck.makeDeck();
-    // this.db_init();
-    // this.list = deck.deck;
     // this.init_cardAll( this.list  );
     // this.auth_check();
   },
   methods: {
-    // db_init() {
-    //   this.database = firebase.database();
-    //   this.cardAllRef = this.database.ref('myBoard');
+    listen() {  // データベースの変更を購読、最新状態をlistにコピーする
+      firebase
+        .database()
+        .ref("myBoard/1")
+        // .ref("myBoard/"+this.$route.params.id)
+        .on("value", snapshot => {
+          // eslint-disable-line
+          if (snapshot) {
+            const rootList = snapshot.val();
+            let list = [];
+            if(rootList===null) return //全reomoveしたら、エラーになる
+            Object.keys(rootList).forEach((val, key) => {
+              rootList[val].id = val;
+              list.push(rootList[val]);
+            });
+            this.dataAll = list;
+            // this.$parent.dataAll = list;
+            // this.listen();
+          }
+        });
+    },
 
-    //   var _this = this;
-    //   this.cardAllRef.on('value', function(snapshot) {
-    //     _this.cardAll = snapshot.val();
-    //   });
-    // },
     // init_cardAll( deckAllArr ) {
     //   // 空欄の場合は実行しない
     //   // if (!deckAllArr) return;

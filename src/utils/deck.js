@@ -16,6 +16,8 @@ export const cardObj=( suit =null,
                 suit: suit, number: number, color: color, hide: hide,own: own, arena: arena,
               };
 };
+// ⬇no test then no use
+// export const addCard_J = cardObj( "j", "-");
 
 suits_def.forEach(suit => {
   [...Array( defMaxNum )].map((_, i) => deck.push(cardObj( suit, i+1)) );
@@ -25,9 +27,8 @@ suits_red.forEach(suit => {
 });
 [...Array( 3          )].map((_, i) => deck.push(cardObj( "J", "-")) );
 
-
 export function init(){
-  //後でリファクタする
+  // ※後でリファクタリング
   this.deck = [];
   suits_def.forEach(suit => {
     [...Array( defMaxNum )].map((_, i) => this.deck.push(cardObj( suit, i+1)) );
@@ -35,10 +36,32 @@ export function init(){
   suits_red.forEach(suit => {
     [...Array( defMaxNum )].map((_, i) => this.deck.push(cardObj( suit, i+1, "red")) );
   });
-    [...Array( 3          )].map((_, i) => this.deck.push(cardObj( "J", "-")) );
-  // return deck;
+  [...Array( 3          )].map((_, i) => this.deck.push(cardObj( "J", "-")) );
+  // console.dir( this.deck ); 
 }
 
+// what change array to obj
+// export function initCardAkkObj(){
+//   //後でリファクタする
+//   let cardAkkObj = {};
+//   suits_def.forEach(suit => {
+//     [...Array( defMaxNum )].map((_, i) => {
+//       let cardObj = cardObj( suit, i+1);
+//       cardAkkObj[cardObj.id] = cardObj;
+//     })
+//   });
+//   suits_red.forEach(suit => {
+//     [...Array( defMaxNum )].map((_, i) => {
+//       let cardObj = cardObj( suit, i+1);
+//       cardAkkObj[cardObj.id] = cardObj;
+//     })
+//   });
+//   [...Array( 3          )].map((_, i) => {
+//     let cardObj = cardObj( "j", "#");
+//     cardAkkObj[cardObj.id] = cardObj;
+//   });
+//   return cardAkkObj;
+// }
 export function pick( owner=null, arena=null ){
   if( this.deck.length == 0 ) return;
   let pickCard = this.deck.splice(Math.floor(Math.random() * Math.floor(this.deck.length)), 1)[0];

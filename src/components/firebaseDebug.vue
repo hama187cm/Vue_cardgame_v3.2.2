@@ -99,24 +99,24 @@ export default {
       //cardObj_tmp= deck.cardObj(),
       this.sendLocalMessage( "->done" );
     },
-    // sendLocalMessage( msg ){
-    //   this.localMessage = msg;
-    //   this.timerObj = setInterval(function() { 
-    //     this.localMessage = null; }, 1000);
-    //   //this.destroyed();
-    // },
-    // timerLocalMessage() {
-    //   let self = this;
-    //   this.timerObj = setInterval(function() {self.count()}, 3000)
-    //   // this.timerOn = true
-    // },
-    // completeLocalMessage() {
-    //   clearInterval(this.timerObj)
-    // }
+    sendLocalMessage( msg ){
+      this.localMessage = msg;
+      this.timerObj = setInterval(function() { 
+        this.localMessage = null; }, 1000);
+      //this.destroyed();
+    },
+    timerLocalMessage() {
+      let self = this;
+      this.timerObj = setInterval(function() {self.count()}, 3000)
+      // this.timerOn = true
+    },
+    completeLocalMessage() {
+      clearInterval(this.timerObj)
+    }
   },
-  // destroyed(){
-  //     clearInterval(this.timerObj);
-  // },
+  destroyed(){
+      clearInterval(this.timerObj);
+  },
 }
 </script>
 
