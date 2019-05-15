@@ -70,9 +70,10 @@ import { constants } from 'fs';
 export default {
   name: 'player',
   components: { draggable, Card },
-  props: ["mainMessageAtView","dataAll"],
+  props: ["mainMessageAtView",　"dataAll"],
   data () {
     return {
+      // dataAll: [], // 最新状態はここにコピーされる
       userID: null,
       list: [],
       arena: [],
@@ -103,11 +104,10 @@ export default {
     // }
 
     // this.hand = this.dataAll;
-    this.userID = this.getUserID();
     this.init();
   },
   updated() {
-    this.userID = this.getUserID();
+      this.init();
   },
   watch: {
     // hand(val, oldVal) {
@@ -115,34 +115,28 @@ export default {
     // },
     dataAll: {
       handler(val, oldVal) {
+      console.dir( this.dataAll );
         this.distributeCardPlace(val);
       },
       deep: true
     },
-    // arena(val) {
-    //   let arena_temp = [];
-    //   // console.dir( val );
-    //   val.forEach(ele => {
-    //     if(ele.own == this.userID ){
-    //       // console.dir( ele );
-    //       if(ele.arena){
-    //         arena_temp.push( ele );
-    //         // console.log( "arena");
-    //         }
-    //     }
-    //     this.arena = arena_temp;
-    //   });
-    // }, 
-    userID(val) {
-      this.distributeCardPlace( this.dataAll );
-    },
+    // userID(val) {
+    //   this.init();
+    // },
   },
   methods: {
-    distributeCardPlace( val ){
+    init(){
+      this.userID = this.getUserID();
+      this.dataAll = this.$firebaseListenAllOnce();
+      //firebaseListenAllOnceの処理より先に下のdistributeCardPlaceが動いている
+      console.dir( this.dataAll );
+      // this.distributeCardPlace( this.dataAll, true );
+    },
+    distributeCardPlace( val, handFlg=false ){
       let newCards_temp = [];
       let arena_temp = [];
       let hand_temp = [];
-      // console.dir( val );
+      console.dir( val );
       val.forEach(ele => {
         if(ele.own == this.userID ){
           // console.dir( ele );
@@ -157,12 +151,11 @@ export default {
         }
         this.newCards = newCards_temp;
         this.arena = arena_temp;
-        this.hand2 = hand_temp;
-        this.hand = []; //init
+        if(handFlg){
+          this.hand2 = hand_temp;
+          this.hand = []; //init
+        }
       });
-    },
-    init(){
-      this.distributeCardPlace( this.dataAll );
     },
     draw () {
       let card = deck.pickCard( this.dataAll);
@@ -183,37 +176,31 @@ export default {
       console.dir(evt.to.id);
       console.dir(evt);
       let cardObj;
-      if(evt.from.id != this.$arena() 
-         && evt.to.id == this.$arena() ){
+      if(evt.from.id != evt.to.id ){
+        if(evt.to.id == this.$arena() ){
           this.dataAll.forEach(ele => {
           if(ele.id==evt.item.id){
             cardObj = ele;
             cardObj.arena = this.$arena();
             this.firebaseSetCard( cardObj );
+            console.log("firebaseSetCard");
           }
-        });
-        console.log(cardObj);
-      }else if(evt.from.id == this.$newCards() 
-              && evt.to.id != this.$newCards() ){
-        this.dataAll.forEach(ele => {
-          if(ele.id==evt.item.id){
-            cardObj = ele;
-            cardObj.arena = null;
-            this.firebaseSetCard( cardObj );
-          }
-        });
-        console.log(cardObj);
-      }else{
-        this.dataAll.forEach(ele => {
-          if(ele.id==evt.item.id){
-            cardObj = ele;
-            cardObj.arena = null;
-            this.firebaseSetCard( cardObj );
-          }
-        });
-        console.log(cardObj);
+          });
+          console.log(cardObj);
+        }else if(evt.from.id == this.$arena() 
+          || evt.from.id == this.$newCards() ){
+          this.dataAll.forEach(ele => {
+            if(ele.id==evt.item.id){
+              cardObj = ele;
+              cardObj.arena = null;
+              this.firebaseSetCard( cardObj );
+              console.log("firebaseSetCard");
+            }
+          });
+          console.log(cardObj);
+        }
       }
-        console.log(cardObj);
+      console.log(cardObj);
       // console.log(evt.to.dataset.columnId);
       // return evt.relatedContext.list.name !== 'newCards';
     },
@@ -222,28 +209,6 @@ export default {
       let newCardColumnflg = true;
       if(evt.to.id == this.$newCards() ){ newCardColumnflg = false}
       return newCardColumnflg;
-    },
-    listen() {  // データベースの変更を購読、最新状態をlistにコピーする
-      firebase
-        .database()
-        .ref("myBoard/1")
-        // .ref("myBoard/"+this.$route.params.id)
-        .orderByChild('own').startAt('user_a').endAt('user_a')
-        .on("value", snapshot => {
-          // eslint-disable-line
-          if (snapshot) {
-            const rootList = snapshot.val();
-            let list = [];
-            if(rootList===null) return //全reomoveしたら、エラーになる
-            Object.keys(rootList).forEach((val, key) => {
-              rootList[val].id = val;
-              list.push(rootList[val]);
-            });
-            this.hand2 = list;
-            // this.$parent.dataAll = list;
-            // this.listen();
-          }
-        });
     },
   },
 }

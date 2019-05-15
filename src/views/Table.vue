@@ -1,6 +1,6 @@
 <template>
 <!-- <v-container fluid grid-list-xs grey lighten-3 id="home"> -->
-<v-flex xs10 mx-1 pa-0 id="$route.name">
+<v-flex xs12 mx-1 pa-0 id="$route.name">
 <!-- <v-container fluid grid-list-xs id="app"> -->
   <v-layout row wrap justify-start class="navi_bar">
     <navigation></navigation>

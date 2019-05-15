@@ -37,7 +37,8 @@ export default {
   },
   // created() {
   created() {
-    this.listen();
+    // this.listen();
+    
     // deck.makeDeck();
     // this.init_cardAll( this.list  );
     // this.auth_check();
