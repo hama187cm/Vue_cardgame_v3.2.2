@@ -55,7 +55,7 @@
     </v-flex>
   </v-layout>
   <v-layout row wrap justify-start>
-    User ID:{{this.getUserID()}}
+    [dev] User ID:{{this.getUserID()}}
   </v-layout>
 </v-container>
 </template>
@@ -65,7 +65,6 @@ import draggable from "vuedraggable";
 
 import  * as deck from '../utils/deck'
 import Card from './Card'
-import { constants } from 'fs';
 
 export default {
   name: 'player',
@@ -74,63 +73,47 @@ export default {
   data () {
     return {
       // dataAll: [], // 最新状態はここにコピーされる
-      userID: null,
+      userID: this.getUserID(),
       list: [],
       arena: [],
       newCards:  [],
       hand:  [],
       hand2: [],
+      hand3: [],
       // myCards: this.arena.concat(this.newCards, this.hand, this.hand2 ),
       nothing_in_deck_flg: false,
     }
   },
-  // beforeUpdate(){
-  //   console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
-  //   if(this.$root.$cardAll==null){
-  //     this.list = this.$root.$cardAll  = deck.deck;
-  //   }
-  // },
-  created() {
-    // console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
-    // console.dir(this.$root.$cardAll);
-    // console.log("deck :", JSON.stringify( deck ))
-    // let myCards = this.arena.concat(this.newCards, this.hand, this.hand2 );
-    // console.dir(myCards);
-    // if(myCards.length===0 || this.$root.$cardAll===4 ){
-    //   // this.arena.push(   deck.pick());
-    //   // this.arena.push(   deck.pick());
-    //   // this.newCards.push( deck.pick());
-    //   // this.hand.push(    deck.pick());
-    // }
+  // beforeCreate, created, mounted, updated
+  created() {      console.log( "★created" );
+    //⬇$firebase.listenがまだ終わってないと表示不具合が起きるため
+    if(this.dataAll.length==0) this.$router.push({ path: '/?dummy_logout' });
 
-    // this.hand = this.dataAll;
-    this.init();
+    this.distributeCardPlace( this.dataAll, true );
   },
-  updated() {
-      this.init();
-  },
+  // created() {      console.log( "★mounted" );  },
+  // mounted() {      console.log( "★mounted" );  },
+  // updated() {      console.log( "★updated" );  },
   watch: {
     // hand(val, oldVal) {
     //   this.hand = this.dataAll;
     // },
     dataAll: {
-      handler(val, oldVal) {
-      console.dir( this.dataAll );
-        this.distributeCardPlace(val);
+      handler(val, oldVal){ console.log("★watch-dataAll" );
+        // console.dir( val );
+        this.distributeCardPlace(val);  console.log( "▷distributeCardPlace" );
       },
       deep: true
     },
-    // userID(val) {
-    //   this.init();
-    // },
+    userID(val) { console.log("★watch-userID" );
+      this.distributeCardPlace( this.dataAll, true );console.log( "▷distributeCardPlace" );
+    },
   },
   methods: {
-    init(){
-      this.userID = this.getUserID();
-      this.dataAll = this.$firebaseListenAllOnce();
-      //firebaseListenAllOnceの処理より先に下のdistributeCardPlaceが動いている
-      console.dir( this.dataAll );
-      // this.distributeCardPlace( this.dataAll, true );
+    initUserID(){
+      if(this.userID != this.getUserID()){
+        this.userID = this.getUserID();
+      } 
     },
     distributeCardPlace( val, handFlg=false ){
       let newCards_temp = [];
@@ -138,7 +121,7 @@ export default {
       let hand_temp = [];
       console.dir( val );
       val.forEach(ele => {
-        if(ele.own == this.userID ){
+        if(ele.own == this.getUserID() ){
           // console.dir( ele );
           if(ele.arena==this.$newCards() ){
             newCards_temp.push( ele );
@@ -156,8 +139,9 @@ export default {
           this.hand = []; //init
         }
       });
+      console.dir( this.dataAll);
     },
-    draw () {
+    draw () {      console.log( "★draw" );
       let card = deck.pickCard( this.dataAll);
       console.dir(card);
       if( !card ){
@@ -171,18 +155,18 @@ export default {
       // this.newCards.push( card );
     },
     onEnd: function(evt) {  //hands[]用
-      console.dir(evt.item.id);
-      console.dir(evt.from.id);
-      console.dir(evt.to.id);
-      console.dir(evt);
+      console.log(evt.from.id, ">>", evt.clone.id, ">>",evt.to.id);
+      console.dir(evt);      // console.dir(evt.item.id);
       let cardObj;
       if(evt.from.id != evt.to.id ){
         if(evt.to.id == this.$arena() ){
           this.dataAll.forEach(ele => {
-          if(ele.id==evt.item.id){
+          if(ele.id==evt.clone.id){
             cardObj = ele;
             cardObj.arena = this.$arena();
+            console.dir(cardObj);
             this.firebaseSetCard( cardObj );
+            console.dir(cardObj);
             console.log("firebaseSetCard");
           }
           });
@@ -190,14 +174,13 @@ export default {
         }else if(evt.from.id == this.$arena() 
           || evt.from.id == this.$newCards() ){
           this.dataAll.forEach(ele => {
-            if(ele.id==evt.item.id){
+            if(ele.id==evt.clone.id){
               cardObj = ele;
               cardObj.arena = null;
               this.firebaseSetCard( cardObj );
               console.log("firebaseSetCard");
             }
           });
-          console.log(cardObj);
         }
       }
       console.log(cardObj);

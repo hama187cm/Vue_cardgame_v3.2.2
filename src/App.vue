@@ -33,16 +33,15 @@ export default {
     this.$root.$cardAll = deck.deck;
     // console.log("$cardAll :", JSON.stringify( this.$root.$cardAll ))
     // console.log( "this.$root", JSON.stringify(this.$root ));
-
+  },
+  created() {
+    this.listen();
   },
   // created() {
-  created() {
-    // this.listen();
-    
     // deck.makeDeck();
     // this.init_cardAll( this.list  );
     // this.auth_check();
-  },
+  // },
   methods: {
     listen() {  // データベースの変更を購読、最新状態をlistにコピーする
       firebase

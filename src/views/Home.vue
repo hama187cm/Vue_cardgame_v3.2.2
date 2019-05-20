@@ -75,7 +75,9 @@ export default {
       existRoomNum: 1,
     }
   },
-  created() {
+  created(){
+    if(!this.$route.params.homeStatus) this.mainMessage= this.$route.params.homeStatus;
+    console.log("userID"+this.getUserID());
     // this.listen();
   },
   methods: {

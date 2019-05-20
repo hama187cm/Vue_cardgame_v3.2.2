@@ -17,6 +17,11 @@
       <a>1/b</a>
     </router-link>
   </li>
+  <li class="blue-grey lighten-4 mr-2 px-1 devOnly">
+    <router-link to="/home/logout">
+      <a>logout</a>
+    </router-link>
+  </li>
   <!-- <li v-for="tab in this.$router.options.routes" :key='tab.name' class="blue-grey lighten-4 mr-2">
     <router-link :to="{ name : tab.name}" v-if="tab.name!=$route.name">
       <a>{{tab.name}}</a>

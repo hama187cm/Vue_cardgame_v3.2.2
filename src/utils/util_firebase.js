@@ -28,6 +28,28 @@ export default {
         }
       });
     },
+    // $firebaseListenAllOnce() {
+    //   firebase
+    //   .database()
+    //   .ref("myBoard/"+this.getRoomNum() ) 
+    //   // .ref("myBoard/"+this.getRoomNum( roomNum ) ) 
+    //   .once("value", snapshot => {
+    //     // eslint-disable-line
+    //     if (snapshot) {
+    //       const rootList = snapshot.val();
+    //       let list = [];
+    //       if(rootList===null) return //全reomoveしたら、エラーになる
+    //       Object.keys(rootList).forEach((val, key) => {
+    //         rootList[val].id = val;
+    //         list.push(rootList[val]);
+    //       });
+    //       console.dir( list );
+    //      return list;
+    //       // this.$parent.dataAll = list;
+    //       // this.listen();
+    //     }
+    //   });
+    // },
     firebaseSetCard( cardObj, roomNum=null ) {  //todo: メソッド名の頭に$をつける
       this.formatCardObj(cardObj);
       firebase.database()
@@ -97,6 +119,6 @@ export default {
         return dummy;
       }
       return this.$route.params.user
-    }
+    },
   }
 }
